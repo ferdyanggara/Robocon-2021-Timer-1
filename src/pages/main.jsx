@@ -15,7 +15,8 @@ const Main = () => {
             <Timer/>
             </div>
             <div>
-            <Arrow/>
+            <Arrow barrelNo={1}/>
+            <Arrow barrelNo={2}/>
             </div>
         </div>
     )

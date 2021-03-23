@@ -17,14 +17,18 @@ const arrowReducer = (state = initialState, action) => {
         case "ADD_ARROW":{
             const {barrel, id, time} = action.payload;
             const newArrow = arrowTemplate(barrel, id, time);
-            state.arrows.push(newArrow);
+            let newArray = state.arrows.map(a => ({...a}));
+            newArray.push(newArrow);
+            const newId = state.numberOfArrows + 1;
             console.log({
                 ...state,
-                numberOfArrows : state.numberOfArrows + 1,
+                arrows: newArray,
+                numberOfArrows : newId,
             });
             return ({
                 ...state,
-                numberOfArrows : state.numberOfArrows + 1,
+                arrows: newArray,
+                numberOfArrows : newId
             });
         }
         case "DELETE_ARROW":{

@@ -27,18 +27,30 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const Arrow = ({barrelNo, currentId, currentTime, addArrow, deleteArrow}) => {
+const Arrow = ({barrelNo, currentId, currentTime, addArrow, deleteArrow, arrowsData, arrowNumber}) => {
 
     const classes = useStyles();
+    let highestId = 0;
+    console.log(arrowsData);
+    const data = arrowsData
+    .filter(arrow => arrow.barrel === barrelNo)
+    .map(data => {
+      if(data.id > highestId) highestId = data.id;
+      return data.barrelNo + " " + data.id + " " + data.time;
+    });
+
     return (
         <Paper className={classes.root}>
             <h1>{barrelNo}</h1>
-            <ArrowList barrelNo={barrelNo}/>
+            <ArrowList barrelNo={barrelNo} editedData = {data}/>
             <div>
                 <IconButton aria-label="delete" color="primary" onClick={() => addArrow(barrelNo, currentId, currentTime)}>
                     <AddIcon />
                 </IconButton>
-                <IconButton color="secondary" aria-label="add an alarm" onClick={() => deleteArrow(currentId - 1)}>
+                {/* temporary fix please add disabled if cannot minus as it can still minus other 0's id*/}
+                <IconButton color="secondary" aria-label="add an alarm" onClick={() => {
+                  if(arrowNumber > 0) deleteArrow(highestId);
+                }}>
                     <RemoveIcon />
                 </IconButton>
             </div>
@@ -48,6 +60,8 @@ const Arrow = ({barrelNo, currentId, currentTime, addArrow, deleteArrow}) => {
 
 const mapStateToProps = (state)=> {
     return({
+        arrowNumber : state.arrowList.numberOfArrows,
+        arrowsData : state.arrowList.arrows,
         currentId : state.arrowList.numberOfArrows,
         currentTime : state.timer.time
     })

@@ -26,32 +26,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ArrowList = ({arrowsData}) => {
-    const data = [
-        'Racing car sprays burning fuel into crowd.',
-        'Japanese princess to wed commoner.',
-        'Australian walks 100km after outback crash.',
-        'Man charged over missing wedding girl.',
-        'Los Angeles battles huge wildfires.',
-        'Racing car sprays burning fuel into crowd.',
-        'Japanese princess to wed commoner.',
-        'Australian walks 100km after outback crash.',
-      ];
+const ArrowList = ({editedData, barrelNo}) => {
       const classes = useStyles();
-      console.log("OBTAINED FROM ARROWLIST", arrowsData);
     return (
         <List className={classes.root} subheader={<li />}>
-      {data.map((sectionId) => (
-        <li key={`section-${sectionId}`} className={classes.listSection}>
-          <ul className={classes.ul}>
-            <ListSubheader>{`I'm sticky ${sectionId}`}</ListSubheader>
-            {[0, 1, 2].map((item) => (
-              <ListItem key={`item-${sectionId}-${item}`}>
-                <ListItemText primary={`Item ${item}`} />
-              </ListItem>
-            ))}
-          </ul>
-        </li>
+      {editedData.map(value => (
+      <ListItem button>
+          {value}
+      </ListItem>
       ))}
     </List>
     )
