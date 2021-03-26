@@ -62,7 +62,6 @@ const mapStateToProps = (state)=> {
     return({
         arrowNumber : state.arrowList.numberOfArrows,
         arrowsData : state.arrowList.arrows,
-        currentId : state.arrowList.numberOfArrows,
         currentTime : state.timer.time
     })
   }

@@ -8,6 +8,10 @@ import Switch from '@material-ui/core/Switch'
 
 import Grid from '@material-ui/core/Grid'
 
+
+import {connect} from "react-redux"
+import {AddingArrowAction, DeletingArrowAction} from "../../redux/actions/arrowActions"
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -30,7 +34,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const Timer = (props) => {
+const Timer = ({arrowNumber, arrowsData, addArrow, deleteArrow}) => {
+    
+    console.log(arrowsData);
     let startTime = Date.now()
     const MsToTime = (s) => {
         var ms = s % 1000
@@ -152,6 +158,26 @@ const Timer = (props) => {
                 <Button variant="contained" onClick={lapAction}>
                     Lap
                 </Button>
+                <Button variant="contained" onClick={() => {
+                    addArrow(1, timeElapsed);
+                }}>
+                    add bar 1
+                </Button>
+                <Button variant="contained" onClick={() => {
+                    addArrow(2, timeElapsed);
+                }}>
+                    add bar 2
+                </Button>
+                <Button variant="contained" onClick={() => {
+                    deleteArrow(1);
+                }}>
+                    del bar 1
+                </Button>
+                <Button variant="contained" onClick={() => {
+                    deleteArrow(2);
+                }}>
+                    del bar 2
+                </Button>
             </div>
 
 
@@ -203,4 +229,21 @@ const Timer = (props) => {
     )
 }
 
-export default Timer
+
+const mapStateToProps = (state)=> {
+    return({
+        arrowsData : state.arrowList.arrows,
+        arrowNumber : state.arrowList.numberOfArrows,
+    })
+  }
+  
+  const mapDispatchToProps = (dispatch) => {
+    return({
+        addArrow : (barrel, time) => {dispatch(AddingArrowAction(barrel, time))},
+        deleteArrow : (id) => {dispatch(DeletingArrowAction(id))}
+    })
+  } 
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timer)
