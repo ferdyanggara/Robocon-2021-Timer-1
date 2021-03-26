@@ -9,8 +9,8 @@ import Switch from '@material-ui/core/Switch'
 import Grid from '@material-ui/core/Grid'
 
 
-import {connect} from "react-redux"
-import {AddingArrowAction, DeletingArrowAction} from "../../redux/actions/arrowActions"
+import { connect } from "react-redux"
+import { AddingArrowAction, DeletingArrowAction } from "../../redux/actions/arrowActions"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,16 +28,15 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
     },
     saudara: {
+        marginRight: '2px',
         flexDirection: 'row',
         flexWrap: 'nowrap'
     }
 }))
 
 
-const Timer = ({arrowNumber, arrowsData, addArrow, deleteArrow}) => {
-    
-    console.log(arrowsData);
-    let startTime = Date.now()
+const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow }) => {
+
     const MsToTime = (s) => {
         var ms = s % 1000
         s = (s - ms) / 1000
@@ -49,7 +48,6 @@ const Timer = ({arrowNumber, arrowsData, addArrow, deleteArrow}) => {
         return hrs + ':' + mins + ':' + secs + '.' + ms
     }
 
-    //setLoop should be seperated from redux
 
     const [startOnce, setstartOnce] = useState(false)
     const [intervalFunc, setintervalFunc] = useState({})
@@ -66,21 +64,23 @@ const Timer = ({arrowNumber, arrowsData, addArrow, deleteArrow}) => {
     const [arrowCounter, setarrowCounter] = useState({ arrow: 1 })
 
     const [timeElapsed, settimeElapsed] = useState({ time: 180 })
-
-
-
-    const lapAction = () => {
-        setarrowCounter((arrowCounter) => {
-            return {
-                arrow: arrowCounter.arrow + 1
-            }
-        })
-        setRlapPot1([...RlapPot1, { arrowCounter, timeElapsed }])
-    }
+    const [toggleTimer, settoggleTimer] = useState(false)
 
     useEffect(() => {
-        // console.log('lappot1: ', RlapPot1)
-    }, [RlapPot1])
+        setRlapPot1(arrowsData.RLeft);
+        setRlapPot2(arrowsData.RRight);
+        setRlapPot3(arrowsData.RLeft);
+        setRlapPot4(arrowsData.RRight);
+        setRlapPot5(arrowsData.RLeft);
+        setBlapPot1(arrowsData.RLeft);
+        setBlapPot2(arrowsData.RLeft);
+        setBlapPot3(arrowsData.RLeft);
+        setBlapPot4(arrowsData.RLeft);
+        setBlapPot5(arrowsData.RLeft);
+        console.log('arrows data: ', arrowsData);
+    }, [arrowCounter, arrowsData.RLeft, arrowsData.RRight, arrowsData])
+
+
 
     const makeTime = () => {
         setstartOnce(true)
@@ -100,7 +100,6 @@ const Timer = ({arrowNumber, arrowsData, addArrow, deleteArrow}) => {
         console.log('stop')
     }
 
-    //redux this
     const Restart = () => {
         clearInterval(intervalFunc)
         setstartOnce(false)
@@ -117,7 +116,6 @@ const Timer = ({arrowNumber, arrowsData, addArrow, deleteArrow}) => {
     }
 
 
-    const [toggleTimer, settoggleTimer] = useState(false)
 
     const handleToggletimer = (event) => {
         settoggleTimer(!toggleTimer)
@@ -155,16 +153,16 @@ const Timer = ({arrowNumber, arrowsData, addArrow, deleteArrow}) => {
                 <Button variant="contained" onClick={StopAction}>
                     Stop
                 </Button>
-                <Button variant="contained" onClick={lapAction}>
+                {/* <Button variant="contained" onClick={lapAction}>
                     Lap
-                </Button>
+                </Button> */}
                 <Button variant="contained" onClick={() => {
-                    addArrow(1, arrowNumber,timeElapsed);
+                    addArrow(1, arrowNumber, timeElapsed.time);
                 }}>
                     add bar 1
                 </Button>
                 <Button variant="contained" onClick={() => {
-                    addArrow(2, arrowNumber, timeElapsed);
+                    addArrow(2, arrowNumber, timeElapsed.time);
                 }}>
                     add bar 2
                 </Button>
@@ -185,43 +183,7 @@ const Timer = ({arrowNumber, arrowsData, addArrow, deleteArrow}) => {
             <div className={classes.root}>
                 <Grid container className={classes.saudara}>
                     <Grid container style={{ maxWidth: "50vw", marginTop: "5vh" }}>
-                        <GameMap />
-                    </Grid>
-                    <Grid container className={classes.childTable}>
-                        {/* 1st row */}
-                        <Grid item xs={6}>
-                            <TableUI RlapPot={RlapPot1} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TableUI RlapPot={RlapPot1} />
-                        </Grid>
-                        {/* <Grid item xs={2}>
-                            <TableUI RlapPot={RlapPot1} />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TableUI RlapPot={RlapPot1} />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TableUI RlapPot={RlapPot1} />
-                        </Grid> */}
-                    </Grid>
-                    <Grid container className={classes.childTable}>
-                        {/* 2nd row */}
-                        <Grid item xs={6}>
-                            <TableUI RlapPot={RlapPot1} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TableUI RlapPot={RlapPot1} />
-                        </Grid>
-                        {/* <Grid item xs={2}>
-                            <TableUI RlapPot={RlapPot1} />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TableUI RlapPot={RlapPot1} />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TableUI RlapPot={RlapPot1} />
-                        </Grid> */}
+                        <GameMap addingArrow={addArrow} arrowNumber={arrowNumber} timeElapsed={timeElapsed.time} />
                     </Grid>
                 </Grid>
             </div>
@@ -230,19 +192,19 @@ const Timer = ({arrowNumber, arrowsData, addArrow, deleteArrow}) => {
 }
 
 
-const mapStateToProps = (state)=> {
-    return({
-        arrowsData : state.arrowList.arrows,
-        arrowNumber : state.arrowList.numberOfArrows,
+const mapStateToProps = (state) => {
+    return ({
+        arrowsData: state.arrowList.arrows,
+        arrowNumber: state.arrowList.numberOfArrows,
     })
-  }
-  
-  const mapDispatchToProps = (dispatch) => {
-    return({
-        addArrow : (barrel,arrow, time) => {dispatch(AddingArrowAction(barrel, arrow, time))},
-        deleteArrow : (id) => {dispatch(DeletingArrowAction(id))}
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return ({
+        addArrow: (barrel, arrow, time) => { dispatch(AddingArrowAction(barrel, arrow, time)) },
+        deleteArrow: (id) => { dispatch(DeletingArrowAction(id)) }
     })
-  } 
+}
 
 
 

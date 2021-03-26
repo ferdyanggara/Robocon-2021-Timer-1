@@ -27,6 +27,8 @@ const TableUI = ({ RlapPot }) => {
     })
     const classes = useStyles()
 
+    console.log('rlappot: ', RlapPot)
+
     return (
         <div>
             <TableContainer component={Paper}>
@@ -41,10 +43,10 @@ const TableUI = ({ RlapPot }) => {
                         {RlapPot.map((row) => (
                             <TableRow key={row.arrow}>
                                 <TableCell component="th" scope="row">
-                                    {row.arrowCounter.arrow}
+                                    {row.arrow}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {MsToTime(row.timeElapsed.time * 1000)}
+                                    {MsToTime(row.time * 1000)}
                                 </TableCell>
                             </TableRow>
                         ))}

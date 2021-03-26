@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import GameFieldImage from './GameField.png'
 // import './map.css'
 
-const GameMap = () => {
+const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
     return (
         <div>
             <img
@@ -13,27 +13,37 @@ const GameMap = () => {
             />
             <map name="GameField">
                 <area
+                    // red1
                     shape="circle"
                     coords="201,316,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(0)}
+                    onClick={() => {
+                        addingArrow('RLeft', arrowNumber, timeElapsed)
+                    }}
                     hover="true"
                 />
                 <area
+                    // red 2
                     shape="circle"
                     coords="403,316,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(1)}
+                    onClick={() => {
+                        addingArrow('RRight', arrowNumber, timeElapsed)
+                    }}
                     hover="true"
                 />
                 <area
+                    // blue top
                     shape="circle"
                     coords="285,176,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(2)}
+                    onClick={() => {
+                        console.log('blue top')
+                        addingArrow('BTop', arrowNumber, timeElapsed)
+                    }}
                     hover="true"
                 />
                 <area
@@ -41,7 +51,9 @@ const GameMap = () => {
                     coords="285,428,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(3)}
+                    onClick={() => {
+                        addingArrow('BBottom', arrowNumber, timeElapsed)
+                    }}
                     hover="true"
                 />
                 <area
@@ -49,7 +61,9 @@ const GameMap = () => {
                     coords="285,302,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(4)}
+                    onClick={() => {
+                        addingArrow('BCenter', arrowNumber, timeElapsed)
+                    }}
                     hover="true"
                 />
                 <area
@@ -57,7 +71,9 @@ const GameMap = () => {
                     coords="201, 287, 10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(5)}
+                    onClick={() => {
+                        addingArrow('BLeft', arrowNumber, timeElapsed)
+                    }}
                     hover="true"
                     className="test"
                 />
@@ -66,7 +82,9 @@ const GameMap = () => {
                     coords="403,287,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(6)}
+                    onClick={() => {
+                        addingArrow('BRight', arrowNumber, timeElapsed)
+                    }}
                     hover="true"
                 />
                 <area
@@ -74,7 +92,9 @@ const GameMap = () => {
                     coords="320,176,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(7)}
+                    onClick={() => {
+                        addingArrow('RTop', arrowNumber, timeElapsed)
+                    }}
                     hover="true"
                 />
                 <area
@@ -82,7 +102,9 @@ const GameMap = () => {
                     coords="320,428,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(8)}
+                    onClick={() => {
+                        addingArrow('RBottom', arrowNumber, timeElapsed)
+                    }}
                     hover="true"
                 />
                 <area
@@ -90,13 +112,15 @@ const GameMap = () => {
                     coords="320,302,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(9)}
+                    onClick={() => {
+                        addingArrow('RCenter', arrowNumber, timeElapsed)
+                    }}
                     hover="true"
                 />
             </map>
 
             <div>
-                {/* <p className="PotsStatus p0">
+                <p className="PotsStatus p0">
                     {this.props.arrowNumbers[5]}
                     <br />
                 </p>
@@ -126,7 +150,7 @@ const GameMap = () => {
                 </p>
                 <p className="PotsStatus p9">
                     {this.props.arrowNumbers[1]} <br />
-                </p> */}
+                </p>
             </div>
         </div>
     )
