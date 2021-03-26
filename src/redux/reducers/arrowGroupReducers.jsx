@@ -6,9 +6,9 @@ const initialState = {
     }
 }
 
-const arrowTemplate = (barrelNo,currentTime) => {
+const arrowTemplate = (arrow ,currentTime) => {
     return ({
-        barrel : barrelNo,
+        arrow : arrow,
         time : currentTime
     })
 }
@@ -19,8 +19,8 @@ const arrowReducer = (state = initialState, action) => {
             //there should be a better way
             //a 2d array allow the data to be more dynamic, ask him
             console.log("Arrow addition called")
-            const {barrel, time} = action.payload;
-            const newArrow = arrowTemplate(barrel, time);
+            const {arrow, barrel, time} = action.payload;
+            const newArrow = arrowTemplate(arrow, time);
             let newObject = {};
             let newArray = [];
             switch(barrel){

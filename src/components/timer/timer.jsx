@@ -159,12 +159,12 @@ const Timer = ({arrowNumber, arrowsData, addArrow, deleteArrow}) => {
                     Lap
                 </Button>
                 <Button variant="contained" onClick={() => {
-                    addArrow(1, timeElapsed);
+                    addArrow(1, arrowNumber,timeElapsed);
                 }}>
                     add bar 1
                 </Button>
                 <Button variant="contained" onClick={() => {
-                    addArrow(2, timeElapsed);
+                    addArrow(2, arrowNumber, timeElapsed);
                 }}>
                     add bar 2
                 </Button>
@@ -239,7 +239,7 @@ const mapStateToProps = (state)=> {
   
   const mapDispatchToProps = (dispatch) => {
     return({
-        addArrow : (barrel, time) => {dispatch(AddingArrowAction(barrel, time))},
+        addArrow : (barrel,arrow, time) => {dispatch(AddingArrowAction(barrel, arrow, time))},
         deleteArrow : (id) => {dispatch(DeletingArrowAction(id))}
     })
   } 
