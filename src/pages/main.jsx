@@ -14,10 +14,10 @@ const Main = () => {
             <div>
             <Timer/>
             </div>
-            <div>
+            {/* <div>
             <Arrow barrelNo={1}/>
             <Arrow barrelNo={2}/>
-            </div>
+            </div> */}
         </div>
     )
 }
