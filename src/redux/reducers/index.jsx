@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
-import timer from "./timeReducers"
 import arrowList from "./arrowGroupReducers"
+import alertReducer from './alertReducer';
 
-export default combineReducers({timer, arrowList});
+
+export default combineReducers({ arrowList, alertReducer });

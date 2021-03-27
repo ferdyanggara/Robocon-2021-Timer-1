@@ -11,7 +11,8 @@ const initialState = {
         BTop: [],
         BBottom: [],
         BCenter: [],
-    }
+    },
+    alert: [],
 }
 
 const arrowTemplate = (arrow, currentTime) => {
@@ -80,38 +81,39 @@ const arrowReducer = (state = initialState, action) => {
             //     arrows: newObject
             // });
             return ({
+                ...state,
                 numberOfArrows: state.numberOfArrows + 1,
                 arrows: newObject
             });
         }
-        case "DELETE_ARROW": {
-            //2d array also can play in this part
-            const { barrel } = action.payload;
-            let newObject = {};
-            let newArray = [];
-            // console.log(barrel);
-            switch (barrel) {
-                case 1:
-                    newArray = state.arrows.RLeft.filter((value, index, array) => index < array.length - 1);
-                    // console.log(newArray);
-                    newObject = { ...state.arrows, RLeft: newArray };
-                    break;
-                case 2:
-                    newArray = state.arrows.one.filter((value, index, array) => index < array.length - 1);
-                    newObject = { ...state.arrows, two: newArray };
-                    break;
-                default:
-                    break;
-            }
-            // console.log({
-            //     numberOfArrows: state.numberOfArrows - 1,
-            //     arrows: newObject
-            // });
-            return ({
-                numberOfArrows: state.numberOfArrows - 1,
-                arrows: newObject
-            });
-        }
+        // case "DELETE_ARROW": {
+        //     //2d array also can play in this part
+        //     const { barrel } = action.payload;
+        //     let newObject = {};
+        //     let newArray = [];
+        //     // console.log(barrel);
+        //     switch (barrel) {
+        //         case 1:
+        //             newArray = state.arrows.RLeft.filter((value, index, array) => index < array.length - 1);
+        //             // console.log(newArray);
+        //             newObject = { ...state.arrows, RLeft: newArray };
+        //             break;
+        //         case 2:
+        //             newArray = state.arrows.one.filter((value, index, array) => index < array.length - 1);
+        //             newObject = { ...state.arrows, two: newArray };
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        //     // console.log({
+        //     //     numberOfArrows: state.numberOfArrows - 1,
+        //     //     arrows: newObject
+        //     // });
+        //     return ({
+        //         numberOfArrows: state.numberOfArrows - 1,
+        //         arrows: newObject
+        //     });
+        // }
         default: {
 
             return state;

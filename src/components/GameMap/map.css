@@ -1,4 +1,4 @@
-.GameFieldImage {
+/* .GameFieldImage {
     height: 100%;
     width: 100%;
     object-fit: contain;
@@ -13,7 +13,7 @@
     margin-right: 40px;
     position: relative;
     top: -700px;
-}
+} */
 
 .PotsStatus {
     color: rgb(226, 29, 29);

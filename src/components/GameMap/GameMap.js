@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import GameFieldImage from './GameField.png'
-// import './map.css'
+import './map.css'
+import { setAlert } from '../../redux/actions/alertAction'
+import { connect } from 'react-redux'
 
-const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
+const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
     return (
         <div>
             <img
@@ -20,6 +22,8 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('RLeft', arrowNumber, timeElapsed)
+
+                        triggerAlert()
                     }}
                     hover="true"
                 />
@@ -31,6 +35,8 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('RRight', arrowNumber, timeElapsed)
+
+                        triggerAlert()
                     }}
                     hover="true"
                 />
@@ -43,6 +49,8 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
                     onClick={() => {
                         console.log('blue top')
                         addingArrow('BTop', arrowNumber, timeElapsed)
+
+                        triggerAlert()
                     }}
                     hover="true"
                 />
@@ -53,6 +61,7 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('BBottom', arrowNumber, timeElapsed)
+                        triggerAlert()
                     }}
                     hover="true"
                 />
@@ -63,6 +72,7 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('BCenter', arrowNumber, timeElapsed)
+                        triggerAlert()
                     }}
                     hover="true"
                 />
@@ -73,6 +83,8 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('BLeft', arrowNumber, timeElapsed)
+
+                        triggerAlert()
                     }}
                     hover="true"
                     className="test"
@@ -84,6 +96,8 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('BRight', arrowNumber, timeElapsed)
+
+                        triggerAlert()
                     }}
                     hover="true"
                 />
@@ -94,6 +108,8 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('RTop', arrowNumber, timeElapsed)
+
+                        triggerAlert()
                     }}
                     hover="true"
                 />
@@ -104,6 +120,7 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('RBottom', arrowNumber, timeElapsed)
+                        triggerAlert()
                     }}
                     hover="true"
                 />
@@ -114,6 +131,7 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('RCenter', arrowNumber, timeElapsed)
+                        triggerAlert()
                     }}
                     hover="true"
                 />
@@ -121,10 +139,11 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
 
             <div>
                 <p className="PotsStatus p0">
-                    {this.props.arrowNumbers[5]}
+                    {/* {this.props.arrowNumbers[5]} */}
+                    {/* hi */}
                     <br />
                 </p>
-                <p className="PotsStatus p1">
+                {/* <p className="PotsStatus p1">
                     {this.props.arrowNumbers[0]} <br />
                 </p>
                 <p className="PotsStatus p2">
@@ -150,10 +169,29 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed }) => {
                 </p>
                 <p className="PotsStatus p9">
                     {this.props.arrowNumbers[1]} <br />
-                </p>
+                </p> */}
             </div>
         </div>
     )
 }
 
-export default GameMap
+const mapStateToProps = (state) => {
+    return {
+        arrowNumber: state.arrowList.numberOfArrows,
+        arrowsData: state.arrowList.arrows,
+        // currentTime: state.timer.time,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        triggerAlert: (msg = 'Arrow Added', alertType = 'success') => {
+            dispatch(setAlert(msg, alertType))
+        },
+        // deleteArrow: (id) => {
+        //     dispatch(setAlert(id))
+        // },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameMap)
