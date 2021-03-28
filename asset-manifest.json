@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/Robocon-2021-Timer/static/css/main.ac1fdde7.chunk.css",
+    "main.js": "/Robocon-2021-Timer/static/js/main.3a6fd2fb.chunk.js",
+    "main.js.map": "/Robocon-2021-Timer/static/js/main.3a6fd2fb.chunk.js.map",
+    "runtime-main.js": "/Robocon-2021-Timer/static/js/runtime-main.e9cf60e5.js",
+    "runtime-main.js.map": "/Robocon-2021-Timer/static/js/runtime-main.e9cf60e5.js.map",
+    "static/css/2.d9f42a61.chunk.css": "/Robocon-2021-Timer/static/css/2.d9f42a61.chunk.css",
+    "static/js/2.bf13fb20.chunk.js": "/Robocon-2021-Timer/static/js/2.bf13fb20.chunk.js",
+    "static/js/2.bf13fb20.chunk.js.map": "/Robocon-2021-Timer/static/js/2.bf13fb20.chunk.js.map",
+    "static/js/3.2c6b4d10.chunk.js": "/Robocon-2021-Timer/static/js/3.2c6b4d10.chunk.js",
+    "static/js/3.2c6b4d10.chunk.js.map": "/Robocon-2021-Timer/static/js/3.2c6b4d10.chunk.js.map",
+    "index.html": "/Robocon-2021-Timer/index.html",
+    "static/css/2.d9f42a61.chunk.css.map": "/Robocon-2021-Timer/static/css/2.d9f42a61.chunk.css.map",
+    "static/css/main.ac1fdde7.chunk.css.map": "/Robocon-2021-Timer/static/css/main.ac1fdde7.chunk.css.map",
+    "static/js/2.bf13fb20.chunk.js.LICENSE.txt": "/Robocon-2021-Timer/static/js/2.bf13fb20.chunk.js.LICENSE.txt",
+    "static/media/GameField.327b5015.png": "/Robocon-2021-Timer/static/media/GameField.327b5015.png",
+    "static/media/index.css": "/Robocon-2021-Timer/static/media/roboto-vietnamese-400-normal.52cebac0.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e9cf60e5.js",
+    "static/css/2.d9f42a61.chunk.css",
+    "static/js/2.bf13fb20.chunk.js",
+    "static/css/main.ac1fdde7.chunk.css",
+    "static/js/main.3a6fd2fb.chunk.js"
+  ]
+}
