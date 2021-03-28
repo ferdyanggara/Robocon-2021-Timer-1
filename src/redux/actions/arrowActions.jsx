@@ -1,12 +1,12 @@
 const ADD_ARROW = "ADD_ARROW"
 const DELETE_ARROW = "DELETE_ARROW"
-
-const AddingArrowAction = (barrelNo, idNo, currentTime) => {
+//dont forget to edit it out
+const AddingArrowAction = (barrelNo, arrow, currentTime) => {
     return({
         type : ADD_ARROW,
         payload : {
             barrel : barrelNo,
-            id : idNo,
+            arrow : arrow,
             time : currentTime
         }
     })
@@ -17,7 +17,7 @@ const DeletingArrowAction = (idNo) => {
     return({
         type: DELETE_ARROW,
         payload : {
-            id : idNo,
+            barrel : idNo,
         }
     })
 }

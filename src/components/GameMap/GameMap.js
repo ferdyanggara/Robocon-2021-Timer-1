@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import GameFieldImage from './GameField.png'
-// import './map.css'
+import './map.css'
+import { setAlert } from '../../redux/actions/alertAction'
+import { connect } from 'react-redux'
 
-const GameMap = () => {
+const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
     return (
         <div>
             <img
@@ -13,27 +15,42 @@ const GameMap = () => {
             />
             <map name="GameField">
                 <area
+                    // red1
                     shape="circle"
                     coords="201,316,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(0)}
+                    onClick={() => {
+                        addingArrow('RLeft', arrowNumber, timeElapsed)
+                        triggerAlert('Arrow Added at Pot Red Left', 'success')
+                    }}
                     hover="true"
                 />
                 <area
+                    // red 2
                     shape="circle"
                     coords="403,316,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(1)}
+                    onClick={() => {
+                        addingArrow('RRight', arrowNumber, timeElapsed)
+
+                        triggerAlert('Arrow Added at Pot Red Right', 'success')
+                    }}
                     hover="true"
                 />
                 <area
+                    // blue top
                     shape="circle"
                     coords="285,176,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(2)}
+                    onClick={() => {
+                        console.log('blue top')
+                        addingArrow('BTop', arrowNumber, timeElapsed)
+
+                        triggerAlert('Arrow Added at Pot Blue Top', 'success')
+                    }}
                     hover="true"
                 />
                 <area
@@ -41,7 +58,13 @@ const GameMap = () => {
                     coords="285,428,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(3)}
+                    onClick={() => {
+                        addingArrow('BBottom', arrowNumber, timeElapsed)
+                        triggerAlert(
+                            'Arrow Added at Pot Blue Bottom',
+                            'success',
+                        )
+                    }}
                     hover="true"
                 />
                 <area
@@ -49,7 +72,13 @@ const GameMap = () => {
                     coords="285,302,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(4)}
+                    onClick={() => {
+                        addingArrow('BCenter', arrowNumber, timeElapsed)
+                        triggerAlert(
+                            'Arrow Added at Pot Blue Center',
+                            'success',
+                        )
+                    }}
                     hover="true"
                 />
                 <area
@@ -57,7 +86,11 @@ const GameMap = () => {
                     coords="201, 287, 10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(5)}
+                    onClick={() => {
+                        addingArrow('BLeft', arrowNumber, timeElapsed)
+
+                        triggerAlert('Arrow Added at Pot Blue Left', 'success')
+                    }}
                     hover="true"
                     className="test"
                 />
@@ -66,7 +99,11 @@ const GameMap = () => {
                     coords="403,287,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(6)}
+                    onClick={() => {
+                        addingArrow('BRight', arrowNumber, timeElapsed)
+
+                        triggerAlert('Arrow Added at Pot Blue Right', 'success')
+                    }}
                     hover="true"
                 />
                 <area
@@ -74,7 +111,11 @@ const GameMap = () => {
                     coords="320,176,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(7)}
+                    onClick={() => {
+                        addingArrow('RTop', arrowNumber, timeElapsed)
+
+                        triggerAlert('Arrow Added at Pot Red Top', 'success')
+                    }}
                     hover="true"
                 />
                 <area
@@ -82,7 +123,10 @@ const GameMap = () => {
                     coords="320,428,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(8)}
+                    onClick={() => {
+                        addingArrow('RBottom', arrowNumber, timeElapsed)
+                        triggerAlert('Arrow Added at Pot Red Bottom', 'success')
+                    }}
                     hover="true"
                 />
                 <area
@@ -90,17 +134,21 @@ const GameMap = () => {
                     coords="320,302,10"
                     alt="buttonerror"
                     href="#"
-                    // onClick={() => this.props.ScoreHandler(9)}
+                    onClick={() => {
+                        addingArrow('RCenter', arrowNumber, timeElapsed)
+                        triggerAlert('Arrow Added at Pot Red Center', 'success')
+                    }}
                     hover="true"
                 />
             </map>
 
             <div>
-                {/* <p className="PotsStatus p0">
-                    {this.props.arrowNumbers[5]}
+                <p className="PotsStatus p0">
+                    {/* {this.props.arrowNumbers[5]} */}
+                    {/* hi */}
                     <br />
                 </p>
-                <p className="PotsStatus p1">
+                {/* <p className="PotsStatus p1">
                     {this.props.arrowNumbers[0]} <br />
                 </p>
                 <p className="PotsStatus p2">
@@ -132,4 +180,23 @@ const GameMap = () => {
     )
 }
 
-export default GameMap
+const mapStateToProps = (state) => {
+    return {
+        arrowNumber: state.arrowList.numberOfArrows,
+        arrowsData: state.arrowList.arrows,
+        // currentTime: state.timer.time,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        triggerAlert: (msg = 'Arrow Added', alertType = 'success') => {
+            dispatch(setAlert(msg, alertType))
+        },
+        // deleteArrow: (id) => {
+        //     dispatch(setAlert(id))
+        // },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameMap)
