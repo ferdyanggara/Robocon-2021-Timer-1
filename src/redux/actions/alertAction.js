@@ -11,5 +11,5 @@ export const setAlert = (msg = 'Arrow Added', alertType = 'success') => (
         payload: { msg, alertType, id },
     })
 
-    setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 2000)
+    setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 1500)
 }

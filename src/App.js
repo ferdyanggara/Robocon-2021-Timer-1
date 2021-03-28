@@ -1,15 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
-import Test from './pages/main'
+import './App.css'
+import Timer from './components/timer/timer'
+import AlertIcon from './components/layout/AlertIcon'
 
-function App() {
-  return (
-    <div className="App">
-      <div className="stuff">
-        <Test/>
-      </div>
-    </div>
-  );
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+const useStyles = makeStyles({
+    alert: {
+        position: 'absolute',
+        maxWidth: '20vw',
+    },
+})
+
+const App = () => {
+    const classes = useStyles()
+    return (
+        <div className="App">
+            <div className={classes.alert}>
+                <AlertIcon />
+            </div>
+            <Timer />
+        </div>
+    )
 }
 
-export default App;
+export default App

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import GameMap from '../GameMap/GameMap'
-
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 import TableUI from '../TableUI'
+import Divider from '@material-ui/core/Divider';
 import Switch from '@material-ui/core/Switch'
-
+import 'fontsource-roboto';
 import Grid from '@material-ui/core/Grid'
-
+import AddIcon from '@material-ui/icons/Add';
 
 import { connect } from "react-redux"
 import { AddingArrowAction, DeletingArrowAction } from "../../redux/actions/arrowActions"
@@ -51,33 +52,54 @@ const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow }) => {
 
     const [startOnce, setstartOnce] = useState(false)
     const [intervalFunc, setintervalFunc] = useState({})
-    const [RlapPot1, setRlapPot1] = useState([])
-    const [RlapPot2, setRlapPot2] = useState([])
-    const [RlapPot3, setRlapPot3] = useState([])
-    const [RlapPot4, setRlapPot4] = useState([])
-    const [RlapPot5, setRlapPot5] = useState([])
-    const [BlapPot1, setBlapPot1] = useState([])
-    const [BlapPot2, setBlapPot2] = useState([])
-    const [BlapPot3, setBlapPot3] = useState([])
-    const [BlapPot4, setBlapPot4] = useState([])
-    const [BlapPot5, setBlapPot5] = useState([])
+    const [RLeft, setRLeft] = useState([])
+    const [RRight, setRRight] = useState([])
+    const [RTop, setRTop] = useState([])
+    const [RBottom, setRBottom] = useState([])
+    const [RCenter, setRCenter] = useState([])
+    const [BLeft, setBLeft] = useState([])
+    const [BRight, setBRight] = useState([])
+    const [BTop, setBTop] = useState([])
+    const [BBottom, setBBottom] = useState([])
+    const [BCenter, setBCenter] = useState([])
     const [arrowCounter, setarrowCounter] = useState({ arrow: 1 })
 
     const [timeElapsed, settimeElapsed] = useState({ time: 180 })
     const [toggleTimer, settoggleTimer] = useState(false)
 
     useEffect(() => {
-        setRlapPot1(arrowsData.RLeft);
-        setRlapPot2(arrowsData.RRight);
-        setRlapPot3(arrowsData.RLeft);
-        setRlapPot4(arrowsData.RRight);
-        setRlapPot5(arrowsData.RLeft);
-        setBlapPot1(arrowsData.RLeft);
-        setBlapPot2(arrowsData.RLeft);
-        setBlapPot3(arrowsData.RLeft);
-        setBlapPot4(arrowsData.RLeft);
-        setBlapPot5(arrowsData.RLeft);
-        console.log('arrows data: ', arrowsData);
+        if (RLeft.length > 1 && RRight.length > 1 && RBottom.length > 1 && RTop.length > 1 && RCenter.length > 1) {
+            alert('Red Team Victory')
+        }
+        if (BLeft.length > 1 && BRight.length > 1 && BBottom.length > 1 && BTop.length > 1 && BCenter.length > 1) {
+            alert('Blue Team Victory')
+        }
+    }, [RLeft, RRight, RBottom, RTop, RCenter, BLeft, BRight, BBottom, BTop, BCenter])
+
+    useEffect(() => {
+        if (timeElapsed.time == 0) {
+            StopAction()
+            settimeElapsed({ time: 0 })
+            if ((RLeft.length + RRight.length + RTop.length + RBottom.length + RCenter.length) > (BLeft.length + BRight.length + BTop.length + BBottom.length + BCenter.length)) {
+                alert('Red Team Wins')
+            } else {
+                alert('Blue Team Wins')
+            }
+        }
+    }, [timeElapsed.time, RLeft, RRight, RBottom, RTop, RCenter, BLeft, BRight, BBottom, BTop, BCenter])
+
+    useEffect(() => {
+        setRLeft(arrowsData.RLeft);
+        setRRight(arrowsData.RRight);
+        setRTop(arrowsData.RTop);
+        setRBottom(arrowsData.RBottom);
+        setRCenter(arrowsData.RCenter);
+        setBLeft(arrowsData.BLeft);
+        setBRight(arrowsData.BRight);
+        setBTop(arrowsData.BTop);
+        setBBottom(arrowsData.BBottom);
+        setBCenter(arrowsData.BCenter);
+        // console.log('arrows data: ', arrowsData);
     }, [arrowCounter, arrowsData.RLeft, arrowsData.RRight, arrowsData])
 
 
@@ -144,19 +166,19 @@ const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow }) => {
                     name="toggleTimer"
                     inputProps={{ 'aria-label': 'secondary checkbox' }}
                 />
-                <Button variant="contained" disabled={startOnce} onClick={makeTime}>
+                <Button variant="contained" disabled={startOnce} onClick={makeTime} style={{ marginLeft: "1vw" }}>
                     Start
                 </Button>
-                <Button variant="contained" onClick={Restart}>
+                <Button variant="contained" onClick={Restart} style={{ marginLeft: "1vw" }}>
                     Restart
                 </Button>
-                <Button variant="contained" onClick={StopAction}>
+                <Button variant="contained" onClick={StopAction} style={{ marginLeft: "1vw" }}>
                     Stop
                 </Button>
                 {/* <Button variant="contained" onClick={lapAction}>
                     Lap
                 </Button> */}
-                <Button variant="contained" onClick={() => {
+                {/* <Button variant="contained" onClick={() => {
                     addArrow(1, arrowNumber, timeElapsed.time);
                 }}>
                     add bar 1
@@ -175,17 +197,84 @@ const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow }) => {
                     deleteArrow(2);
                 }}>
                     del bar 2
-                </Button>
+                </Button> */}
             </div>
 
 
 
             <div className={classes.root}>
                 <Grid container className={classes.saudara}>
-                    <Grid container style={{ maxWidth: "50vw", marginTop: "5vh" }}>
+                    <Grid container style={{ maxWidth: "40vw", marginTop: "5vh" }}>
                         <GameMap addingArrow={addArrow} arrowNumber={arrowNumber} timeElapsed={timeElapsed.time} />
                     </Grid>
+                    <Grid style={{ flex: 1, flexGrow: 1, flexDirection: "row" }}>
+                        <Grid container className={classes.saudara}>
+                            <Typography variant="h2" style={{ marginTop: "1vh", marginLeft: "20vw", color: "red" }}>Red : {RLeft.length + RRight.length + RTop.length + RBottom.length + RCenter.length}</Typography>
+                            <Button
+                                variant="outlined"
+                                color="secondary"
+                                startIcon={<AddIcon />}
+                                style={{ marginTop: "3vh", marginLeft: "3vw", maxHeight: "5vh" }}
+                            >
+                                <Typography style={{ color: 'red' }}>
+                                    Violation
+                                </Typography>
+                            </Button>
+                        </Grid>
+                        <Grid container className={classes.saudara} style={{ marginBottom: "3vh" }}>
+                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
+                                <TableUI RlapPot={RLeft} />
+                            </Grid>
+                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
+                                <TableUI RlapPot={RRight} />
+                            </Grid>
+                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
+                                <TableUI RlapPot={RTop} />
+                            </Grid>
+                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
+                                <TableUI RlapPot={RBottom} />
+                            </Grid>
+                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
+                                <TableUI RlapPot={RCenter} />
+                            </Grid>
+                        </Grid>
+                        <Grid style={{ maxWidth: "70vw", marginLeft: "1vw" }}>
+                            <hr />
+                        </Grid>
+                        <Grid container className={classes.saudara}>
+                            <Typography variant="h2" style={{ marginTop: "1vh", marginLeft: "20vw", color: "Blue" }}>
+                                Blue: {BLeft.length + BRight.length + BTop.length + BBottom.length + BCenter.length}</Typography>
+                            <Button
+                                variant="outlined"
+                                color="secondary"
+                                startIcon={<AddIcon />}
+                                style={{ marginTop: "4vh", marginLeft: "3vw", maxHeight: "5vh" }}
+                            >
+                                <Typography style={{ color: 'red' }}>
+                                    Violation
+                                </Typography>
+                            </Button>
+                        </Grid>
+                        <Grid container className={classes.saudara}>
+                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
+                                <TableUI RlapPot={BLeft} />
+                            </Grid>
+                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
+                                <TableUI RlapPot={BRight} />
+                            </Grid>
+                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
+                                <TableUI RlapPot={BTop} />
+                            </Grid>
+                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
+                                <TableUI RlapPot={BBottom} />
+                            </Grid>
+                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
+                                <TableUI RlapPot={BCenter} />
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </Grid>
+
             </div>
         </>
     )

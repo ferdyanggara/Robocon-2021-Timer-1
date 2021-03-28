@@ -22,8 +22,7 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('RLeft', arrowNumber, timeElapsed)
-
-                        triggerAlert()
+                        triggerAlert('Arrow Added at Pot Red Left', 'success')
                     }}
                     hover="true"
                 />
@@ -36,7 +35,7 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
                     onClick={() => {
                         addingArrow('RRight', arrowNumber, timeElapsed)
 
-                        triggerAlert()
+                        triggerAlert('Arrow Added at Pot Red Right', 'success')
                     }}
                     hover="true"
                 />
@@ -50,7 +49,7 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
                         console.log('blue top')
                         addingArrow('BTop', arrowNumber, timeElapsed)
 
-                        triggerAlert()
+                        triggerAlert('Arrow Added at Pot Blue Top', 'success')
                     }}
                     hover="true"
                 />
@@ -61,7 +60,10 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('BBottom', arrowNumber, timeElapsed)
-                        triggerAlert()
+                        triggerAlert(
+                            'Arrow Added at Pot Blue Bottom',
+                            'success',
+                        )
                     }}
                     hover="true"
                 />
@@ -72,7 +74,10 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('BCenter', arrowNumber, timeElapsed)
-                        triggerAlert()
+                        triggerAlert(
+                            'Arrow Added at Pot Blue Center',
+                            'success',
+                        )
                     }}
                     hover="true"
                 />
@@ -84,7 +89,7 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
                     onClick={() => {
                         addingArrow('BLeft', arrowNumber, timeElapsed)
 
-                        triggerAlert()
+                        triggerAlert('Arrow Added at Pot Blue Left', 'success')
                     }}
                     hover="true"
                     className="test"
@@ -97,7 +102,7 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
                     onClick={() => {
                         addingArrow('BRight', arrowNumber, timeElapsed)
 
-                        triggerAlert()
+                        triggerAlert('Arrow Added at Pot Blue Right', 'success')
                     }}
                     hover="true"
                 />
@@ -109,7 +114,7 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
                     onClick={() => {
                         addingArrow('RTop', arrowNumber, timeElapsed)
 
-                        triggerAlert()
+                        triggerAlert('Arrow Added at Pot Red Top', 'success')
                     }}
                     hover="true"
                 />
@@ -120,7 +125,7 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('RBottom', arrowNumber, timeElapsed)
-                        triggerAlert()
+                        triggerAlert('Arrow Added at Pot Red Bottom', 'success')
                     }}
                     hover="true"
                 />
@@ -131,7 +136,7 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
                     href="#"
                     onClick={() => {
                         addingArrow('RCenter', arrowNumber, timeElapsed)
-                        triggerAlert()
+                        triggerAlert('Arrow Added at Pot Red Center', 'success')
                     }}
                     hover="true"
                 />

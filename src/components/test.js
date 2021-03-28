@@ -9,36 +9,22 @@ import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 
-const MsToTime = (s) => {
-    var ms = s % 1000
-    s = (s - ms) / 1000
-    var secs = s % 60
-    s = (s - secs) / 60
-    var mins = s % 60
-    var hrs = (s - mins) / 60
-
-    return hrs + ':' + mins + ':' + secs + '.' + ms
-}
-
 const columns = [
-    { id: 'name', label: 'Arrow No', maxWidth: 50, align: 'left' },
-    { id: 'code', label: 'Time', maxWidth: 100, align: 'left' },
+    { id: 'name', label: 'Arrow No', minWidth: 50 },
+    { id: 'code', label: 'Timestamp', minWidth: 100 },
 ]
 
 const useStyles = makeStyles({
     root: {
-        width: '20%',
+        width: '100%',
     },
     container: {
-        maxHeight: 200,
+        maxHeight: 440,
     },
 })
 
-const TableUI = ({ RlapPot, pot }) => {
+export default function StickyHeadTable() {
     const classes = useStyles()
-
-    console.log('rlappot: ', RlapPot)
-
     const [page, setPage] = React.useState(0)
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
@@ -52,8 +38,7 @@ const TableUI = ({ RlapPot, pot }) => {
     }
 
     return (
-        // <Paper className={classes.root}>
-        <Paper>
+        <Paper className={classes.root}>
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -70,38 +55,48 @@ const TableUI = ({ RlapPot, pot }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {RlapPot.slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage,
-                        ).map((row) => {
-                            return (
-                                <TableRow
-                                    hover
-                                    role="checkbox"
-                                    tabIndex={-1}
-                                    // key={row.code}
-                                >
-                                    <TableCell>{row.arrow}</TableCell>
-                                    <TableCell>
-                                        {MsToTime(row.time * 1000)}
-                                    </TableCell>
-                                </TableRow>
+                        {rows
+                            .slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage,
                             )
-                        })}
+                            .map((row) => {
+                                return (
+                                    <TableRow
+                                        hover
+                                        role="checkbox"
+                                        tabIndex={-1}
+                                        key={row.code}
+                                    >
+                                        {columns.map((column) => {
+                                            const value = row[column.id]
+                                            return (
+                                                <TableCell
+                                                    key={column.id}
+                                                    align={column.align}
+                                                >
+                                                    {column.format &&
+                                                    typeof value === 'number'
+                                                        ? column.format(value)
+                                                        : value}
+                                                </TableCell>
+                                            )
+                                        })}
+                                    </TableRow>
+                                )
+                            })}
                     </TableBody>
                 </Table>
             </TableContainer>
-            {/* <TablePagination
+            <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
-                count={RlapPot.length}
+                count={rows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
-            /> */}
+            />
         </Paper>
     )
 }
-
-export default TableUI
