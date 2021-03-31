@@ -4,7 +4,13 @@ import './map.css'
 import { setAlert } from '../../redux/actions/alertAction'
 import { connect } from 'react-redux'
 
-const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
+const GameMap = ({
+    addingArrow,
+    arrowNumber,
+    timeElapsed,
+    triggerAlert,
+    arrowsData,
+}) => {
     return (
         <div>
             <img
@@ -143,38 +149,30 @@ const GameMap = ({ addingArrow, arrowNumber, timeElapsed, triggerAlert }) => {
             </map>
 
             <div>
-                <p className="PotsStatus p0">
-                    {/* {this.props.arrowNumbers[5]} */}
-                    {/* hi */}
-                    <br />
+                <p className="PotsStatus rleft">R1:{arrowsData.RLeft.length}</p>
+                <p className="PotsStatus rright">
+                    R2:{arrowsData.RRight.length}
                 </p>
-                {/* <p className="PotsStatus p1">
-                    {this.props.arrowNumbers[0]} <br />
+                <p className="PotsStatus rtop">R3:{arrowsData.RTop.length}</p>
+                <p className="PotsStatus rcenter">
+                    R4:{arrowsData.RCenter.length}
                 </p>
-                <p className="PotsStatus p2">
-                    {this.props.arrowNumbers[2]} <br />
+                <p className="PotsStatus rbottom">
+                    R5:{arrowsData.RBottom.length}
                 </p>
-                <p className="PotsStatus p3">
-                    {this.props.arrowNumbers[4]} <br />
+                <p className="PotsStatusB bleft">
+                    B1:{arrowsData.BLeft.length}
                 </p>
-                <p className="PotsStatus p4">
-                    {this.props.arrowNumbers[3]} <br />
+                <p className="PotsStatusB bright">
+                    B2:{arrowsData.BRight.length}
                 </p>
-                <p className="PotsStatus p5">
-                    {this.props.arrowNumbers[7]} <br />
+                <p className="PotsStatusB btop">B3:{arrowsData.BTop.length}</p>
+                <p className="PotsStatusB bcenter">
+                    B4:{arrowsData.BCenter.length}
                 </p>
-                <p className="PotsStatus p6">
-                    {this.props.arrowNumbers[9]} <br />
+                <p className="PotsStatusB  bbottom">
+                    B5:{arrowsData.BBottom.length}
                 </p>
-                <p className="PotsStatus p7">
-                    {this.props.arrowNumbers[8]} <br />
-                </p>
-                <p className="PotsStatus p8">
-                    {this.props.arrowNumbers[6]} <br />
-                </p>
-                <p className="PotsStatus p9">
-                    {this.props.arrowNumbers[1]} <br />
-                </p> */}
             </div>
         </div>
     )

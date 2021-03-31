@@ -9,6 +9,9 @@ const useStyles = makeStyles({
         position: 'absolute',
         maxWidth: '20vw',
     },
+    someMargin: {
+        // marginTop: '10vh',
+    },
 })
 
 const App = () => {

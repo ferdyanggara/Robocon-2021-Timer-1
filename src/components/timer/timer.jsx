@@ -12,6 +12,11 @@ import AddIcon from '@material-ui/icons/Add';
 
 import { connect } from "react-redux"
 import { AddingArrowAction, DeletingArrowAction } from "../../redux/actions/arrowActions"
+import { setAlert } from '../../redux/actions/alertAction'
+import TextField from '@material-ui/core/TextField';
+import DrawerRight from '../DrawerRight'
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow }) => {
+const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow, triggerAlert }) => {
 
     const MsToTime = (s) => {
         var ms = s % 1000
@@ -152,13 +157,79 @@ const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow }) => {
         })
     }
 
+    // red violation
+    const [redViolation, setRedViolation] = useState(0)
+    const [blueViolation, setBlueViolation] = useState(0)
+
+    const addRedViolation = () => {
+        triggerAlert("Red Violation !", "error")
+        setRedViolation(prev => prev + 1);
+    }
+
+    const addBlueViolation = () => {
+        triggerAlert("Blue Violation !", "info")
+        setBlueViolation(prev => prev + 1);
+    }
+
+    // text field config 
+
+    // const onChangeInput = (text) => {
+    //     console.log('text received: ', text)
+    // }
+
+
+    const handleTextFieldKeyDown = (event, insideText) => {
+        switch (event.key) {
+            case 'Enter':
+                if (insideText.toLowerCase() == "r1" || insideText.toLowerCase() == "RLeft") {
+                    addArrow("RLeft", arrowNumber, timeElapsed.time)
+                    triggerAlert("Add Arrow", "success")
+
+                } else if (insideText.toLowerCase() == "r2" || insideText.toLowerCase() == "RRight") {
+                    addArrow("RRight", arrowNumber, timeElapsed.time)
+                    triggerAlert("Add Arrow", "success")
+                } else if (insideText.toLowerCase() == "r3" || insideText.toLowerCase() == "RTop") {
+                    addArrow("RTop", arrowNumber, timeElapsed.time)
+                    triggerAlert("Add Arrow", "success")
+                } else if (insideText.toLowerCase() == "r4" || insideText.toLowerCase() == "RCenter") {
+                    addArrow("RCenter", arrowNumber, timeElapsed.time)
+                    triggerAlert("Add Arrow", "success")
+                } else if (insideText.toLowerCase() == "r5" || insideText.toLowerCase() == "RBottom") {
+                    addArrow("RBottom", arrowNumber, timeElapsed.time)
+                    triggerAlert("Add Arrow", "success")
+                } else if (insideText.toLowerCase() == "b1" || insideText.toLowerCase() == "BLeft") {
+                    addArrow("BLeft", arrowNumber, timeElapsed.time)
+                    triggerAlert("Add Arrow", "success")
+                } else if (insideText.toLowerCase() == "b2" || insideText.toLowerCase() == "BRight") {
+                    addArrow("BRight", arrowNumber, timeElapsed.time)
+                    triggerAlert("Add Arrow", "success")
+                } else if (insideText.toLowerCase() == "b3" || insideText.toLowerCase() == "BTop") {
+                    addArrow("BTop", arrowNumber, timeElapsed.time)
+                    triggerAlert("Add Arrow", "success")
+                } else if (insideText.toLowerCase() == "b4" || insideText.toLowerCase() == "BCenter") {
+                    addArrow("BCenter", arrowNumber, timeElapsed.time)
+                    triggerAlert("Add Arrow", "success")
+                } else if (insideText.toLowerCase() == "b5" || insideText.toLowerCase() == "BBottom") {
+                    addArrow("BBottom", arrowNumber, timeElapsed.time)
+                    triggerAlert("Add Arrow", "success")
+                }
+                break
+            default: break
+        }
+    }
+
+    const [insideText, setinsideText] = useState("")
+
     const classes = useStyles();
+
 
     return (
         <>
             <div>
-                <h1>{MsToTime(timeElapsed.time * 1000)}</h1>
-
+                <Grid container className={classes.saudara} style={{ justifyContent: "center" }}>
+                    <h1>{MsToTime(timeElapsed.time * 1000)}</h1>
+                    <DrawerRight />
+                </Grid>
                 <Switch
                     checked={toggleTimer}
                     onChange={handleToggletimer}
@@ -175,6 +246,24 @@ const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow }) => {
                 <Button variant="contained" onClick={StopAction} style={{ marginLeft: "1vw" }}>
                     Stop
                 </Button>
+                {/* <Button variant="contained" onClick={StopAction} style={{ marginLeft: "1vw" }}>
+                    Stop
+                </Button> */}
+                <TextField
+                    label="Add Arrow"
+                    id="outlined-size-small"
+                    defaultValue=""
+                    variant="outlined"
+                    size="small"
+                    style={{ width: "7em", marginLeft: "1vw" }}
+                    onChange={(event) => {
+                        setinsideText(event.target.value)
+                    }}
+                    onKeyDown={(event) => {
+                        handleTextFieldKeyDown(event, insideText)
+                        setinsideText('')
+                    }}
+                />
                 {/* <Button variant="contained" onClick={lapAction}>
                     Lap
                 </Button> */}
@@ -209,12 +298,15 @@ const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow }) => {
                     </Grid>
                     <Grid style={{ flex: 1, flexGrow: 1, flexDirection: "row" }}>
                         <Grid container className={classes.saudara}>
-                            <Typography variant="h2" style={{ marginTop: "1vh", marginLeft: "20vw", color: "red" }}>Red : {RLeft.length + RRight.length + RTop.length + RBottom.length + RCenter.length}</Typography>
+
+                            <Typography variant="h6" style={{ marginTop: "5vh", color: "green", marginLeft: "4vw" }}>Violation : {redViolation}</Typography>
+                            <Typography variant="h2" style={{ marginTop: "1vh", marginLeft: "10vw", color: "red" }}>Red : {RLeft.length + RRight.length + RTop.length + RBottom.length + RCenter.length}</Typography>
                             <Button
                                 variant="outlined"
                                 color="secondary"
                                 startIcon={<AddIcon />}
                                 style={{ marginTop: "3vh", marginLeft: "3vw", maxHeight: "5vh" }}
+                                onClick={addRedViolation}
                             >
                                 <Typography style={{ color: 'red' }}>
                                     Violation
@@ -242,13 +334,15 @@ const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow }) => {
                             <hr />
                         </Grid>
                         <Grid container className={classes.saudara}>
-                            <Typography variant="h2" style={{ marginTop: "1vh", marginLeft: "20vw", color: "Blue" }}>
+                            <Typography variant="h6" style={{ marginTop: "5vh", color: "green", marginLeft: "4vw" }}>Violation : {blueViolation}</Typography>
+                            <Typography variant="h2" style={{ marginTop: "1vh", marginLeft: "10vw", color: "blue" }}>
                                 Blue: {BLeft.length + BRight.length + BTop.length + BBottom.length + BCenter.length}</Typography>
                             <Button
                                 variant="outlined"
                                 color="secondary"
                                 startIcon={<AddIcon />}
                                 style={{ marginTop: "4vh", marginLeft: "3vw", maxHeight: "5vh" }}
+                                onClick={addBlueViolation}
                             >
                                 <Typography style={{ color: 'red' }}>
                                     Violation
@@ -291,9 +385,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return ({
         addArrow: (barrel, arrow, time) => { dispatch(AddingArrowAction(barrel, arrow, time)) },
-        deleteArrow: (id) => { dispatch(DeletingArrowAction(id)) }
+        deleteArrow: (id) => { dispatch(DeletingArrowAction(id)) },
+        triggerAlert: (msg = 'Arrow Added', alertType = 'success') => {
+            dispatch(setAlert(msg, alertType))
+        },
     })
 }
+
 
 
 

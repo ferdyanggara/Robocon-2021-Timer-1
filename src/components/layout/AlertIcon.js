@@ -13,14 +13,18 @@ import Alert from '@material-ui/lab/Alert'
 // }))
 
 const AlertIcon = ({ alertList }) => {
-    console.log('alert list: ', alertList)
+    // console.log('alert list: ', alertList)
     // return 'hi'
 
     return (
         alertList != null &&
         alertList.length > 0 &&
         alertList.map((alert) => {
-            return <Alert severity={alert.alertType}>{alert.msg}</Alert>
+            return (
+                <Alert style={{ marginTop: '2px' }} severity={alert.alertType}>
+                    {alert.msg}
+                </Alert>
+            )
         })
     )
 

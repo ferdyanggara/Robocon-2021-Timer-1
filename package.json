@@ -28,6 +28,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "deploy": "gh-pages -b master -d build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -47,5 +48,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "https://ferdyanggara.github.io/Robocon-2021-Timer/"
 }

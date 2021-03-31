@@ -37,7 +37,7 @@ const useStyles = makeStyles({
 const TableUI = ({ RlapPot, pot }) => {
     const classes = useStyles()
 
-    console.log('rlappot: ', RlapPot)
+    // console.log('rlappot: ', RlapPot)
 
     const [page, setPage] = React.useState(0)
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
@@ -50,6 +50,8 @@ const TableUI = ({ RlapPot, pot }) => {
         setRowsPerPage(+event.target.value)
         setPage(0)
     }
+
+    console.log('rlap pot: ', RlapPot)
 
     return (
         // <Paper className={classes.root}>
