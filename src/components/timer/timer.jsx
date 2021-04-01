@@ -16,6 +16,9 @@ import { setAlert } from '../../redux/actions/alertAction'
 import TextField from '@material-ui/core/TextField';
 import DrawerRight from '../DrawerRight'
 
+import axios from "axios";
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -69,15 +72,17 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
     const [BCenter, setBCenter] = useState([])
     const [arrowCounter, setarrowCounter] = useState({ arrow: 1 })
 
-    const [timeElapsed, settimeElapsed] = useState({ time: 180 })
+    const [timeElapsed, settimeElapsed] = useState({ time: 5 })
     const [toggleTimer, settoggleTimer] = useState(false)
 
     useEffect(() => {
         if (RLeft.length > 1 && RRight.length > 1 && RBottom.length > 1 && RTop.length > 1 && RCenter.length > 1) {
             alert('Red Team Victory')
+            setEndGame(true)
         }
         if (BLeft.length > 1 && BRight.length > 1 && BBottom.length > 1 && BTop.length > 1 && BCenter.length > 1) {
             alert('Blue Team Victory')
+            setEndGame(true)
         }
     }, [RLeft, RRight, RBottom, RTop, RCenter, BLeft, BRight, BBottom, BTop, BCenter])
 
@@ -87,8 +92,10 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
             settimeElapsed({ time: 0 })
             if ((RLeft.length + RRight.length + RTop.length + RBottom.length + RCenter.length) > (BLeft.length + BRight.length + BTop.length + BBottom.length + BCenter.length)) {
                 alert('Red Team Wins')
+                setEndGame(true)
             } else {
                 alert('Blue Team Wins')
+                setEndGame(true)
             }
         }
     }, [timeElapsed.time, RLeft, RRight, RBottom, RTop, RCenter, BLeft, BRight, BBottom, BTop, BCenter])
@@ -130,7 +137,7 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
     const Restart = () => {
         clearInterval(intervalFunc)
         setstartOnce(false)
-        console.log("what is the time: ", timeElapsed)
+        // console.log("what is the time: ", timeElapsed)
         toggleTimer == false ? settimeElapsed((timeElapsed) => {
             return {
                 time: 180
@@ -220,7 +227,17 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
 
     const [insideText, setinsideText] = useState("")
 
+    // end game
+    const [endGame, setEndGame] = useState(false)
+
     const classes = useStyles();
+
+
+
+    // handle upload state 
+    // const handleUpload = () => {
+
+    // }
 
 
     return (
@@ -264,6 +281,11 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
                         setinsideText('')
                     }}
                 />
+                {endGame && <Button variant="contained" color="secondary" style={{ marginLeft: "1vw" }}
+                // onClick={handleUpload}
+                >
+                    Upload
+                </Button>}
                 {/* <Button variant="contained" onClick={lapAction}>
                     Lap
                 </Button> */}

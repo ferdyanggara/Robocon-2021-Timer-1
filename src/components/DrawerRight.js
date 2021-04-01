@@ -30,6 +30,10 @@ import MenuIcon from '@material-ui/icons/Menu'
 import { connect } from 'react-redux'
 import DrawerTable from './DrawerTable'
 
+import axios from 'axios'
+
+import { SERVER_URL } from '../constants/usefulConstants'
+
 const columns = [
     { id: 'name', label: 'Arrow No', maxWidth: 50, align: 'left' },
     { id: 'code', label: 'Time', maxWidth: 100, align: 'left' },
@@ -92,6 +96,49 @@ const DrawerRight = ({ redArrows, blueArrows }) => {
     const [renderRedPots, setRenderRedPots] = useState([])
     const [renderBluePots, setRenderBluePots] = useState([])
 
+    const [bestTimeRed, setbestTimeRed] = useState([])
+    const [bestTimeBlue, setbestTimeBlue] = useState([])
+
+    const loadBestTimeRed = async () => {
+        console.log('what is server url', SERVER_URL)
+        const { data } = await axios.get(`${SERVER_URL}/all-timer`)
+        console.log('what is red best time: ', data)
+        setbestTimeRed(data)
+    }
+
+    const loadBestTimeBlue = async () => {
+        console.log('what is server url', SERVER_URL)
+        const { data } = await axios.get(`${SERVER_URL}/all-timer`)
+        console.log('what is blue best time: ', data)
+        setbestTimeBlue(data)
+    }
+
+    useEffect(() => {
+        loadBestTimeRed()
+        loadBestTimeBlue()
+    }, [])
+
+    // let bestTimeRed = [
+    //     { bestArrow: 1, Besttime: 180 },
+    //     { bestArrow: 2, Besttime: 180 },
+    //     { bestArrow: 3, Besttime: 180 },
+    //     { bestArrow: 4, Besttime: 180 },
+    //     { bestArrow: 5, Besttime: 180 },
+    //     { bestArrow: 6, Besttime: 180 },
+    //     { bestArrow: 7, Besttime: 180 },
+    //     { bestArrow: 8, Besttime: 180 },
+    // ]
+    // let bestTimeBlue = [
+    //     { bestArrow: 1, Besttime: 180 },
+    //     { bestArrow: 2, Besttime: 180 },
+    //     { bestArrow: 3, Besttime: 180 },
+    //     { bestArrow: 4, Besttime: 180 },
+    //     { bestArrow: 5, Besttime: 180 },
+    //     { bestArrow: 6, Besttime: 180 },
+    //     { bestArrow: 7, Besttime: 180 },
+    //     { bestArrow: 8, Besttime: 180 },
+    // ]
+
     useEffect(() => {
         let tempArray = []
         // console.log('arrowsData: ', arrowsData)
@@ -103,13 +150,16 @@ const DrawerRight = ({ redArrows, blueArrows }) => {
         // console.log('temp array: ', tempArray)
         // setRenderPots(Object.values(arrowsData))
         // console.log('render pots: ', renderPots)
+
         console.log('red arrows: ', redArrows)
         Object.values(redArrows).forEach((potData) => {
-            console.log('each data; ', potData)
             if (potData.length > 0) {
                 potData.forEach((eachData) => {
-                    // console.log('each data: ', eachData)
-                    tempArray.push(eachData)
+                    // console.log('best time: ', bestTime[index])
+                    tempArray.push({
+                        ...eachData,
+                        ...bestTimeRed[eachData.arrow - 1],
+                    })
                 })
             }
         })
@@ -117,22 +167,21 @@ const DrawerRight = ({ redArrows, blueArrows }) => {
         tempArray.sort((a, b) => {
             return a.arrow - b.arrow
         })
-        // console.log('temp array: ', tempArray)
+        // console.log('yes really temp: ', tempArray)
         setRenderRedPots(tempArray)
     }, [redArrows])
 
     useEffect(() => {
         let tempArray = []
-        console.log('blue arrows: ', blueArrows)
+        // console.log('blue arrows: ', blueArrows)
         Object.values(blueArrows).forEach((potData) => {
-            // potData.forEach((eachData) => {
-            //     // console.log('each data: ', eachData)
-            //     tempArray.push(eachData)
-            // })
             if (potData.length > 0) {
                 potData.forEach((eachData) => {
-                    // console.log('each data: ', eachData)
-                    tempArray.push(eachData)
+                    // console.log('best time: ', bestTime[index])
+                    tempArray.push({
+                        ...eachData,
+                        ...bestTimeBlue[eachData.arrow - 1],
+                    })
                 })
             }
         })

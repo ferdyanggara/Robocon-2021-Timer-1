@@ -90,6 +90,7 @@ const TableUI = ({ RlapPot, pot }) => {
                     >
                         <TableCell>{row.arrow}</TableCell>
                         <TableCell>{MsToTime(row.time * 1000)}</TableCell>
+                        <TableCell>{MsToTime(row.Besttime * 1000)}</TableCell>
                     </TableRow>
                 )
             })}
