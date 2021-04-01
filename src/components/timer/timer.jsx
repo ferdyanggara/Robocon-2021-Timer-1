@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow, triggerAlert }) => {
+const Timer = ({ arrowNumber,redArrows, blueArrows, addArrow, deleteArrow, triggerAlert }) => {
 
     const MsToTime = (s) => {
         var ms = s % 1000
@@ -94,18 +94,18 @@ const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow, triggerAlert })
     }, [timeElapsed.time, RLeft, RRight, RBottom, RTop, RCenter, BLeft, BRight, BBottom, BTop, BCenter])
 
     useEffect(() => {
-        setRLeft(arrowsData.RLeft);
-        setRRight(arrowsData.RRight);
-        setRTop(arrowsData.RTop);
-        setRBottom(arrowsData.RBottom);
-        setRCenter(arrowsData.RCenter);
-        setBLeft(arrowsData.BLeft);
-        setBRight(arrowsData.BRight);
-        setBTop(arrowsData.BTop);
-        setBBottom(arrowsData.BBottom);
-        setBCenter(arrowsData.BCenter);
+        setRLeft(redArrows.RLeft);
+        setRRight(redArrows.RRight);
+        setRTop(redArrows.RTop);
+        setRBottom(redArrows.RBottom);
+        setRCenter(redArrows.RCenter);
+        setBLeft(blueArrows.BLeft);
+        setBRight(blueArrows.BRight);
+        setBTop(blueArrows.BTop);
+        setBBottom(blueArrows.BBottom);
+        setBCenter(blueArrows.BCenter);
         // console.log('arrows data: ', arrowsData);
-    }, [arrowCounter, arrowsData.RLeft, arrowsData.RRight, arrowsData])
+    }, [redArrows, blueArrows])
 
 
 
@@ -182,35 +182,35 @@ const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow, triggerAlert })
         switch (event.key) {
             case 'Enter':
                 if (insideText.toLowerCase() == "r1" || insideText.toLowerCase() == "RLeft") {
-                    addArrow("RLeft", arrowNumber, timeElapsed.time)
+                    addArrow("RLeft", arrowNumber, timeElapsed.time, "RED")
                     triggerAlert("Add Arrow", "success")
 
                 } else if (insideText.toLowerCase() == "r2" || insideText.toLowerCase() == "RRight") {
-                    addArrow("RRight", arrowNumber, timeElapsed.time)
+                    addArrow("RRight", arrowNumber, timeElapsed.time, "RED")
                     triggerAlert("Add Arrow", "success")
                 } else if (insideText.toLowerCase() == "r3" || insideText.toLowerCase() == "RTop") {
-                    addArrow("RTop", arrowNumber, timeElapsed.time)
+                    addArrow("RTop", arrowNumber, timeElapsed.time,"RED")
                     triggerAlert("Add Arrow", "success")
                 } else if (insideText.toLowerCase() == "r4" || insideText.toLowerCase() == "RCenter") {
-                    addArrow("RCenter", arrowNumber, timeElapsed.time)
+                    addArrow("RCenter", arrowNumber, timeElapsed.time, "RED")
                     triggerAlert("Add Arrow", "success")
                 } else if (insideText.toLowerCase() == "r5" || insideText.toLowerCase() == "RBottom") {
-                    addArrow("RBottom", arrowNumber, timeElapsed.time)
+                    addArrow("RBottom", arrowNumber, timeElapsed.time, "RED")
                     triggerAlert("Add Arrow", "success")
                 } else if (insideText.toLowerCase() == "b1" || insideText.toLowerCase() == "BLeft") {
-                    addArrow("BLeft", arrowNumber, timeElapsed.time)
+                    addArrow("BLeft", arrowNumber, timeElapsed.time, "BLUE")
                     triggerAlert("Add Arrow", "success")
                 } else if (insideText.toLowerCase() == "b2" || insideText.toLowerCase() == "BRight") {
-                    addArrow("BRight", arrowNumber, timeElapsed.time)
+                    addArrow("BRight", arrowNumber, timeElapsed.time, "BLUE")
                     triggerAlert("Add Arrow", "success")
                 } else if (insideText.toLowerCase() == "b3" || insideText.toLowerCase() == "BTop") {
-                    addArrow("BTop", arrowNumber, timeElapsed.time)
+                    addArrow("BTop", arrowNumber, timeElapsed.time, "BLUE")
                     triggerAlert("Add Arrow", "success")
                 } else if (insideText.toLowerCase() == "b4" || insideText.toLowerCase() == "BCenter") {
-                    addArrow("BCenter", arrowNumber, timeElapsed.time)
+                    addArrow("BCenter", arrowNumber, timeElapsed.time, "BLUE")
                     triggerAlert("Add Arrow", "success")
                 } else if (insideText.toLowerCase() == "b5" || insideText.toLowerCase() == "BBottom") {
-                    addArrow("BBottom", arrowNumber, timeElapsed.time)
+                    addArrow("BBottom", arrowNumber, timeElapsed.time, "BLUE")
                     triggerAlert("Add Arrow", "success")
                 }
                 break
@@ -228,7 +228,7 @@ const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow, triggerAlert })
             <div>
                 <Grid container className={classes.saudara} style={{ justifyContent: "center" }}>
                     <h1>{MsToTime(timeElapsed.time * 1000)}</h1>
-                    <DrawerRight />
+                    {/* <DrawerRight /> */}
                 </Grid>
                 <Switch
                     checked={toggleTimer}
@@ -288,7 +288,7 @@ const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow, triggerAlert })
                     del bar 2
                 </Button> */}
             </div>
-
+            
 
 
             <div className={classes.root}>
@@ -377,14 +377,15 @@ const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow, triggerAlert })
 
 const mapStateToProps = (state) => {
     return ({
-        arrowsData: state.arrowList.arrows,
+        redArrows: state.arrowList.redArrows,
+        blueArrows: state.arrowList.blueArrows,
         arrowNumber: state.arrowList.numberOfArrows,
     })
 }
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        addArrow: (barrel, arrow, time) => { dispatch(AddingArrowAction(barrel, arrow, time)) },
+        addArrow: (barrel, arrow, time, type) => { dispatch(AddingArrowAction(barrel, arrow, time, type)) },
         deleteArrow: (id) => { dispatch(DeletingArrowAction(id)) },
         triggerAlert: (msg = 'Arrow Added', alertType = 'success') => {
             dispatch(setAlert(msg, alertType))

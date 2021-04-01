@@ -1,16 +1,20 @@
 const initialState = {
     numberOfArrows: 0,
-    arrows: {
+    redArrows:{
+        arrow: 0,
         RLeft: [],
         RRight: [],
         RTop: [],
         RBottom: [],
-        RCenter: [],
+        RCenter: []
+    },
+    blueArrows : {
+        arrow : 0,
         BLeft: [],
         BRight: [],
         BTop: [],
         BBottom: [],
-        BCenter: [],
+        BCenter: []
     },
     alert: [],
 }
@@ -28,63 +32,79 @@ const arrowReducer = (state = initialState, action) => {
             //there should be a better way
             //a 2d array allow the data to be more dynamic, ask him
             console.log("Arrow addition called")
-            const { arrow, barrel, time } = action.payload;
-            const newArrow = arrowTemplate(arrow + 1, time);
+            const { arrow, barrel, time, type } = action.payload;
+            //fix this too
+            const newArrow = arrowTemplate(type === "RED"? state.redArrows.arrow + 1: state.blueArrows.arrow + 1, time);
             let newObject = {};
-            let newArray = [];
-            switch (barrel) {
-                case "RLeft":
-                    newArray = [...state.arrows.RLeft, newArrow];
-                    newObject = { ...state.arrows, RLeft: newArray }
-                    break;
-                case "RRight":
-                    newArray = [...state.arrows.RRight, newArrow];
-                    newObject = { ...state.arrows, RRight: newArray }
-                    break;
-                case "RTop":
-                    newArray = [...state.arrows.RTop, newArrow];
-                    newObject = { ...state.arrows, RTop: newArray }
-                    break;
-                case "RBottom":
-                    newArray = [...state.arrows.RBottom, newArrow];
-                    newObject = { ...state.arrows, RBottom: newArray }
-                    break;
-                case "RCenter":
-                    newArray = [...state.arrows.RCenter, newArrow];
-                    newObject = { ...state.arrows, RCenter: newArray }
-                    break;
-                case "BLeft":
-                    newArray = [...state.arrows.BLeft, newArrow];
-                    newObject = { ...state.arrows, BLeft: newArray }
-                    break;
-                case "BRight":
-                    newArray = [...state.arrows.BRight, newArrow];
-                    newObject = { ...state.arrows, BRight: newArray }
-                    break;
-                case "BTop":
-                    newArray = [...state.arrows.BTop, newArrow];
-                    newObject = { ...state.arrows, BTop: newArray }
-                    break;
-                case "BBottom":
-                    newArray = [...state.arrows.BBottom, newArrow];
-                    newObject = { ...state.arrows, BBottom: newArray }
-                    break;
-                case "BCenter":
-                    newArray = [...state.arrows.BCenter, newArrow];
-                    newObject = { ...state.arrows, BCenter: newArray }
-                    break;
-                default:
-                    break;
+            let newArray = []; //redundant
+            console.log("READING TYPE ", type)
+            if(type == "RED"){
+                switch (barrel) {
+                    case "RLeft":
+                        newArray = [...state.redArrows.RLeft, newArrow];
+                        newObject = { ...state.redArrows, RLeft: newArray , arrow : state.redArrows.arrow + 1};
+                        break;
+                    case "RRight":
+                        newArray = [...state.redArrows.RRight, newArrow];
+                        newObject = { ...state.redArrows, RRight: newArray,  arrow : state.redArrows.arrow + 1 };
+                        break;
+                    case "RTop":
+                        newArray = [...state.redArrows.RTop, newArrow];
+                        newObject = { ...state.redArrows, RTop: newArray, arrow : state.redArrows.arrow + 1 };
+                        break;
+                    case "RBottom":
+                        newArray = [...state.redArrows.RBottom, newArrow];
+                        newObject = { ...state.redArrows, RBottom: newArray,  arrow : state.redArrows.arrow + 1 };
+                        break;
+                    case "RCenter":
+                        newArray = [...state.redArrows.RCenter, newArrow];
+                        newObject = { ...state.redArrows, RCenter: newArray, arrow : state.redArrows.arrow + 1 };
+                        break;
+                    default:
+                        break;
+                }
+                return ({
+                    ...state,
+                    numberOfArrows: state.numberOfArrows + 1,
+                    redArrows: newObject,
+                })
             }
-            // console.log({
+            else{
+                switch (barrel) {
+                    case "BLeft":
+                        newArray = [...state.blueArrows.BLeft, newArrow];
+                        newObject = { ...state.blueArrows, BLeft: newArray, arrow : state.blueArrows.arrow + 1  };
+                        break;
+                    case "BRight":
+                        newArray = [...state.blueArrows.BRight, newArrow];
+                        newObject = { ...state.blueArrows, BRight: newArray, arrow : state.blueArrows.arrow + 1  };
+                        break;
+                    case "BTop":
+                        newArray = [...state.blueArrows.BTop, newArrow];
+                        newObject = { ...state.blueArrows, BTop: newArray, arrow : state.blueArrows.arrow + 1  };
+                        break;
+                    case "BBottom":
+                        newArray = [...state.blueArrows.BBottom, newArrow];
+                        newObject = { ...state.blueArrows, BBottom: newArray, arrow : state.blueArrows.arrow + 1  };
+                        break;
+                    case "BCenter":
+                        newArray = [...state.blueArrows.BCenter, newArrow];
+                        newObject = { ...state.blueArrows, BCenter: newArray, arrow : state.blueArrows.arrow + 1  };
+                        break;
+                    default:
+                        break;
+                }
+                return ({
+                    ...state,
+                    numberOfArrows: state.numberOfArrows + 1,
+                    blueArrows: newObject,
+                })
+            }
+            // return ({
+            //     ...state,
             //     numberOfArrows: state.numberOfArrows + 1,
             //     arrows: newObject
             // });
-            return ({
-                ...state,
-                numberOfArrows: state.numberOfArrows + 1,
-                arrows: newObject
-            });
         }
         // case "DELETE_ARROW": {
         //     //2d array also can play in this part
@@ -122,3 +142,4 @@ const arrowReducer = (state = initialState, action) => {
 }
 
 export default arrowReducer;
+
