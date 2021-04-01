@@ -103,14 +103,14 @@ const DrawerRight = ({ arrowsData }) => {
         let tempArray = []
         Object.values(arrowsData).forEach((potData) => {
             potData.forEach((eachData) => {
-                console.log('each data: ', eachData)
+                // console.log('each data: ', eachData)
                 tempArray.push(eachData)
             })
         })
         tempArray.sort((a, b) => {
             return a.arrow - b.arrow
         })
-        console.log('temp array: ', tempArray)
+        // console.log('temp array: ', tempArray)
         setRenderPots(tempArray)
     }, [arrowsData])
 

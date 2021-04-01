@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table'
@@ -50,6 +50,26 @@ const TableUI = ({ RlapPot, pot }) => {
         setRowsPerPage(+event.target.value)
         setPage(0)
     }
+
+    let bestTimeData = [
+        { arrow: 1, time: 180 },
+        { arrow: 2, time: 180 },
+        { arrow: 3, time: 180 },
+        { arrow: 4, time: 180 },
+        { arrow: 5, time: 180 },
+        { arrow: 6, time: 180 },
+        { arrow: 7, time: 180 },
+    ]
+
+    // useEffect(() => {}, [RlapPot])
+
+    useEffect(() => {
+        RlapPot.map((each, index) => {
+            let objClone = { ...each, ...bestTimeData[index] }
+            console.log('obj clone: ', objClone)
+        })
+        // console.log('bruh')
+    }, [])
 
     console.log('rlap pot: ', RlapPot)
 
