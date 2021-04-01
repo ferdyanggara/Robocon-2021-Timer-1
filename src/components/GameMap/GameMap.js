@@ -10,10 +10,8 @@ const GameMap = ({
     timeElapsed,
     triggerAlert,
     redArrow,
-    blueArrow
+    blueArrow,
 }) => {
-    console.log("redL",redArrow);
-    console.log("fuck",blueArrow);
     return (
         <div>
             <img
@@ -30,7 +28,7 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('RLeft', arrowNumber, timeElapsed, "RED")
+                        addingArrow('RLeft', arrowNumber, timeElapsed, 'RED')
                         triggerAlert('Arrow Added at Pot Red Left', 'success')
                     }}
                     hover="true"
@@ -42,7 +40,7 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('RRight', arrowNumber, timeElapsed, "RED")
+                        addingArrow('RRight', arrowNumber, timeElapsed, 'RED')
 
                         triggerAlert('Arrow Added at Pot Red Right', 'success')
                     }}
@@ -56,7 +54,7 @@ const GameMap = ({
                     href="#"
                     onClick={() => {
                         console.log('blue top')
-                        addingArrow('BTop', arrowNumber, timeElapsed, "BLUE")
+                        addingArrow('BTop', arrowNumber, timeElapsed, 'BLUE')
 
                         triggerAlert('Arrow Added at Pot Blue Top', 'success')
                     }}
@@ -68,7 +66,7 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('BBottom', arrowNumber, timeElapsed, "BLUE")
+                        addingArrow('BBottom', arrowNumber, timeElapsed, 'BLUE')
                         triggerAlert(
                             'Arrow Added at Pot Blue Bottom',
                             'success',
@@ -82,7 +80,7 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('BCenter', arrowNumber, timeElapsed, "BLUE")
+                        addingArrow('BCenter', arrowNumber, timeElapsed, 'BLUE')
                         triggerAlert(
                             'Arrow Added at Pot Blue Center',
                             'success',
@@ -96,7 +94,7 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('BLeft', arrowNumber, timeElapsed, "BLUE")
+                        addingArrow('BLeft', arrowNumber, timeElapsed, 'BLUE')
 
                         triggerAlert('Arrow Added at Pot Blue Left', 'success')
                     }}
@@ -109,7 +107,7 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('BRight', arrowNumber, timeElapsed, "BLUE")
+                        addingArrow('BRight', arrowNumber, timeElapsed, 'BLUE')
 
                         triggerAlert('Arrow Added at Pot Blue Right', 'success')
                     }}
@@ -121,7 +119,7 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('RTop', arrowNumber, timeElapsed, "RED")
+                        addingArrow('RTop', arrowNumber, timeElapsed, 'RED')
 
                         triggerAlert('Arrow Added at Pot Red Top', 'success')
                     }}
@@ -133,7 +131,7 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('RBottom', arrowNumber, timeElapsed, "RED")
+                        addingArrow('RBottom', arrowNumber, timeElapsed, 'RED')
                         triggerAlert('Arrow Added at Pot Red Bottom', 'success')
                     }}
                     hover="true"
@@ -144,18 +142,16 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('RCenter', arrowNumber, timeElapsed, "RED")
+                        addingArrow('RCenter', arrowNumber, timeElapsed, 'RED')
                         triggerAlert('Arrow Added at Pot Red Center', 'success')
                     }}
                     hover="true"
-                />  
+                />
             </map>
 
             <div>
                 <p className="PotsStatus rleft">R1:{redArrow.RLeft.length}</p>
-                <p className="PotsStatus rright">
-                    R2:{redArrow.RRight.length}
-                </p>
+                <p className="PotsStatus rright">R2:{redArrow.RRight.length}</p>
                 <p className="PotsStatus rtop">R3:{redArrow.RTop.length}</p>
                 <p className="PotsStatus rcenter">
                     R4:{redArrow.RCenter.length}
@@ -163,9 +159,7 @@ const GameMap = ({
                 <p className="PotsStatus rbottom">
                     R5:{redArrow.RBottom.length}
                 </p>
-                <p className="PotsStatusB bleft">
-                    B1:{blueArrow.BLeft.length}
-                </p>
+                <p className="PotsStatusB bleft">B1:{blueArrow.BLeft.length}</p>
                 <p className="PotsStatusB bright">
                     B2:{blueArrow.BRight.length}
                 </p>
@@ -185,7 +179,7 @@ const mapStateToProps = (state) => {
     return {
         arrowNumber: state.arrowList.numberOfArrows,
         redArrow: state.arrowList.redArrows,
-        blueArrow: state.arrowList.blueArrows
+        blueArrow: state.arrowList.blueArrows,
         // currentTime: state.timer.time,
     }
 }

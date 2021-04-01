@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const Timer = ({ arrowNumber,redArrows, blueArrows, addArrow, deleteArrow, triggerAlert }) => {
+const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, triggerAlert }) => {
 
     const MsToTime = (s) => {
         var ms = s % 1000
@@ -189,7 +189,7 @@ const Timer = ({ arrowNumber,redArrows, blueArrows, addArrow, deleteArrow, trigg
                     addArrow("RRight", arrowNumber, timeElapsed.time, "RED")
                     triggerAlert("Add Arrow", "success")
                 } else if (insideText.toLowerCase() == "r3" || insideText.toLowerCase() == "RTop") {
-                    addArrow("RTop", arrowNumber, timeElapsed.time,"RED")
+                    addArrow("RTop", arrowNumber, timeElapsed.time, "RED")
                     triggerAlert("Add Arrow", "success")
                 } else if (insideText.toLowerCase() == "r4" || insideText.toLowerCase() == "RCenter") {
                     addArrow("RCenter", arrowNumber, timeElapsed.time, "RED")
@@ -228,7 +228,7 @@ const Timer = ({ arrowNumber,redArrows, blueArrows, addArrow, deleteArrow, trigg
             <div>
                 <Grid container className={classes.saudara} style={{ justifyContent: "center" }}>
                     <h1>{MsToTime(timeElapsed.time * 1000)}</h1>
-                    {/* <DrawerRight /> */}
+                    <DrawerRight />
                 </Grid>
                 <Switch
                     checked={toggleTimer}
@@ -288,7 +288,7 @@ const Timer = ({ arrowNumber,redArrows, blueArrows, addArrow, deleteArrow, trigg
                     del bar 2
                 </Button> */}
             </div>
-            
+
 
 
             <div className={classes.root}>

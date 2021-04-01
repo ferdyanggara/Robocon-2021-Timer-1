@@ -63,15 +63,15 @@ const TableUI = ({ RlapPot, pot }) => {
 
     // useEffect(() => {}, [RlapPot])
 
-    useEffect(() => {
-        RlapPot.map((each, index) => {
-            let objClone = { ...each, ...bestTimeData[index] }
-            console.log('obj clone: ', objClone)
-        })
-        // console.log('bruh')
-    }, [])
+    // useEffect(() => {
+    //     RlapPot.map((each, index) => {
+    //         let objClone = { ...each, ...bestTimeData[index] }
+    //         console.log('obj clone: ', objClone)
+    //     })
+    //     // console.log('bruh')
+    // }, [])
 
-    console.log('rlap pot: ', RlapPot)
+    console.log('drawer table pot: ', RlapPot)
 
     return (
         // <Paper className={classes.root}>

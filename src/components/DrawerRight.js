@@ -8,6 +8,8 @@ import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table'
 import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
+import Typography from '@material-ui/core/Typography'
+
 import ListItem from '@material-ui/core/ListItem'
 import { setAlert } from '../redux/actions/alertAction'
 import TableContainer from '@material-ui/core/TableContainer'
@@ -48,7 +50,7 @@ const useStyles = makeStyles({
     },
 })
 
-const DrawerRight = ({ arrowsData }) => {
+const DrawerRight = ({ redArrows, blueArrows }) => {
     const classes = useStyles()
     const [state, setState] = React.useState({
         top: false,
@@ -87,10 +89,11 @@ const DrawerRight = ({ arrowsData }) => {
     //     // console.log('things: ', things)
     // }, [arrowsData])
 
-    const [renderPots, setRenderPots] = useState([])
+    const [renderRedPots, setRenderRedPots] = useState([])
+    const [renderBluePots, setRenderBluePots] = useState([])
 
     useEffect(() => {
-        // let tempArray = []
+        let tempArray = []
         // console.log('arrowsData: ', arrowsData)
         // Object.values(arrowsData).forEach((each) => {
         //     if (each.length > 0) {
@@ -100,30 +103,44 @@ const DrawerRight = ({ arrowsData }) => {
         // console.log('temp array: ', tempArray)
         // setRenderPots(Object.values(arrowsData))
         // console.log('render pots: ', renderPots)
-        let tempArray = []
-        Object.values(arrowsData).forEach((potData) => {
-            potData.forEach((eachData) => {
-                // console.log('each data: ', eachData)
-                tempArray.push(eachData)
-            })
+        console.log('red arrows: ', redArrows)
+        Object.values(redArrows).forEach((potData) => {
+            console.log('each data; ', potData)
+            if (potData.length > 0) {
+                potData.forEach((eachData) => {
+                    // console.log('each data: ', eachData)
+                    tempArray.push(eachData)
+                })
+            }
         })
+
         tempArray.sort((a, b) => {
             return a.arrow - b.arrow
         })
         // console.log('temp array: ', tempArray)
-        setRenderPots(tempArray)
-    }, [arrowsData])
+        setRenderRedPots(tempArray)
+    }, [redArrows])
 
-    // things.map((each) => {
-    //     if (each.length > 0) {
-    //         console.log('time: ', each)
-    //         each.map((moreEach) => {
-    //             console.log(moreEach.time)
-    //         })
-    //     }
-    // })
-
-    // let newArray = []
+    useEffect(() => {
+        let tempArray = []
+        console.log('blue arrows: ', blueArrows)
+        Object.values(blueArrows).forEach((potData) => {
+            // potData.forEach((eachData) => {
+            //     // console.log('each data: ', eachData)
+            //     tempArray.push(eachData)
+            // })
+            if (potData.length > 0) {
+                potData.forEach((eachData) => {
+                    // console.log('each data: ', eachData)
+                    tempArray.push(eachData)
+                })
+            }
+        })
+        tempArray.sort((a, b) => {
+            return a.arrow - b.arrow
+        })
+        setRenderBluePots(tempArray)
+    }, [blueArrows])
 
     const list = (anchor) => (
         <div
@@ -136,6 +153,16 @@ const DrawerRight = ({ arrowsData }) => {
         >
             <List>
                 <Paper>
+                    <Typography
+                        variant="h2"
+                        style={{
+                            marginTop: '1vh',
+                            marginLeft: '10vw',
+                            color: 'red',
+                        }}
+                    >
+                        Red
+                    </Typography>
                     <TableContainer className={classes.container}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
@@ -153,48 +180,45 @@ const DrawerRight = ({ arrowsData }) => {
                                     ))}
                                 </TableRow>
                             </TableHead>
-                            {renderPots.map((each) => {
+                            {renderRedPots.map((each) => {
                                 return <DrawerTable RlapPot={[each]} />
                             })}
                         </Table>
                     </TableContainer>
-                    {/* <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={RlapPot.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-            /> */}
+                    <Typography
+                        variant="h2"
+                        style={{
+                            marginTop: '1vh',
+                            marginLeft: '10vw',
+                            color: 'blue',
+                        }}
+                    >
+                        Blue
+                    </Typography>
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {columns.map((column) => (
+                                        <TableCell
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{
+                                                minWidth: column.minWidth,
+                                            }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            {renderBluePots.map((each) => {
+                                return <DrawerTable RlapPot={[each]} />
+                            })}
+                        </Table>
+                    </TableContainer>
                 </Paper>
-                {/* {Object.values(arrowsData).map((each) => {
-                    each.map((moreEach, index) => {
-                        if (moreEach.time != undefined) {
-                            let text = moreEach.time.toString()
-                            return (
-                                // <ListItem button key={moreEach.time}>
-                                <ListItem button>
-                                    <ListItemIcon>
-                                        {index % 2 === 0 ? (
-                                            <InboxIcon />
-                                        ) : (
-                                            <MailIcon />
-                                        )}
-                                    </ListItemIcon>
-                                    <ListItemText primary={text} />
-                                </ListItem>
-                            )
-                        }
-                    })
-                })} */}
-                {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map(
-                    (text, index) => (
-                        
-                    ),
-                )} */}
             </List>
-            {/* <Divider /> */}
         </div>
     )
 
@@ -227,7 +251,8 @@ const DrawerRight = ({ arrowsData }) => {
 
 const mapStateToProps = (state) => {
     return {
-        arrowsData: state.arrowList.arrows,
+        redArrows: state.arrowList.redArrows,
+        blueArrows: state.arrowList.blueArrows,
         arrowNumber: state.arrowList.numberOfArrows,
     }
 }
