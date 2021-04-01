@@ -115,10 +115,10 @@ const Timer = ({ arrowNumber, arrowsData, addArrow, deleteArrow, triggerAlert })
             setInterval(() => {
                 settimeElapsed((timeElapsed) => {
                     return {
-                        time: timeElapsed.time - 1
+                        time: (timeElapsed.time - 0.1).toFixed(1)
                     }
                 })
-            }, 1000),
+            }, 100),
         )
     }
 
