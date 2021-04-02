@@ -8,6 +8,8 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
+import Button from '@material-ui/core/Button'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 const MsToTime = (s) => {
     var ms = s % 1000
@@ -23,6 +25,7 @@ const MsToTime = (s) => {
 const columns = [
     { id: 'name', label: 'Arrow No', maxWidth: 50, align: 'left' },
     { id: 'code', label: 'Time', maxWidth: 100, align: 'left' },
+    { id: 'yes', label: 'Delete', maxWidth: 100, align: 'left' },
 ]
 
 const useStyles = makeStyles({
@@ -51,7 +54,7 @@ const TableUI = ({ RlapPot, pot }) => {
         setPage(0)
     }
 
-    console.log('rlap pot: ', RlapPot)
+    // console.log('rlap pot: ', RlapPot)
 
     return (
         // <Paper className={classes.root}>
@@ -86,6 +89,11 @@ const TableUI = ({ RlapPot, pot }) => {
                                     <TableCell>{row.arrow}</TableCell>
                                     <TableCell>
                                         {MsToTime(row.time * 1000)}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button>
+                                            <DeleteIcon />
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             )
