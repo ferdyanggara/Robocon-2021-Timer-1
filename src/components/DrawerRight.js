@@ -101,14 +101,14 @@ const DrawerRight = ({ redArrows, blueArrows }) => {
 
     const loadBestTimeRed = async () => {
         console.log('what is server url', SERVER_URL)
-        const { data } = await axios.get(`${SERVER_URL}/all-timer`)
+        const { data } = await axios.get(`${SERVER_URL}/all-timer-red`)
         console.log('what is red best time: ', data)
         setbestTimeRed(data)
     }
 
     const loadBestTimeBlue = async () => {
         console.log('what is server url', SERVER_URL)
-        const { data } = await axios.get(`${SERVER_URL}/all-timer`)
+        const { data } = await axios.get(`${SERVER_URL}/all-timer-blue`)
         console.log('what is blue best time: ', data)
         setbestTimeBlue(data)
     }

@@ -18,6 +18,7 @@ import DrawerRight from '../DrawerRight'
 
 import axios from "axios";
 
+import { SERVER_URL } from '../../constants/usefulConstants'
 
 
 
@@ -72,7 +73,7 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
     const [BCenter, setBCenter] = useState([])
     const [arrowCounter, setarrowCounter] = useState({ arrow: 1 })
 
-    const [timeElapsed, settimeElapsed] = useState({ time: 5 })
+    const [timeElapsed, settimeElapsed] = useState({ time: 180 })
     const [toggleTimer, settoggleTimer] = useState(false)
 
     useEffect(() => {
@@ -111,7 +112,6 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
         setBTop(blueArrows.BTop);
         setBBottom(blueArrows.BBottom);
         setBCenter(blueArrows.BCenter);
-        // console.log('arrows data: ', arrowsData);
     }, [redArrows, blueArrows])
 
 
@@ -122,22 +122,20 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
             setInterval(() => {
                 settimeElapsed((timeElapsed) => {
                     return {
-                        time: (timeElapsed.time - 0.1).toFixed(1)
+                        time: (timeElapsed.time - 0.016).toFixed(3)
                     }
                 })
-            }, 100),
+            }, 1),
         )
     }
 
     const StopAction = () => {
         clearInterval(intervalFunc)
-        console.log('stop')
     }
 
     const Restart = () => {
         clearInterval(intervalFunc)
         setstartOnce(false)
-        // console.log("what is the time: ", timeElapsed)
         toggleTimer == false ? settimeElapsed((timeElapsed) => {
             return {
                 time: 180
@@ -181,7 +179,6 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
     // text field config 
 
     // const onChangeInput = (text) => {
-    //     console.log('text received: ', text)
     // }
 
 
@@ -233,11 +230,113 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
     const classes = useStyles();
 
 
+    const [bestTimeRed, setbestTimeRed] = useState([])
+    const [bestTimeBlue, setbestTimeBlue] = useState([])
+
+    const loadBestTimeRed = async () => {
+        const { data } = await axios.get(`${SERVER_URL}/all-timer-red`)
+        setbestTimeRed(data)
+    }
+
+    const loadBestTimeBlue = async () => {
+        const { data } = await axios.get(`${SERVER_URL}/all-timer-blue`)
+        setbestTimeBlue(data)
+    }
+
+    useEffect(() => {
+        loadBestTimeRed()
+        loadBestTimeBlue()
+    }, [])
+
+    const redUpload = async (arrow, besttime) => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+
+        const { data } = await axios.post(`${SERVER_URL}/add-timer-red`, { arrow: arrow, bestTime: besttime }, config);
+    }
+
+    const blueUpload = async (arrow, besttime) => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+
+        const { data } = await axios.post(`${SERVER_URL}/add-timer-blue`, { arrow: arrow, bestTime: besttime }, config);
+    }
 
     // handle upload state 
-    // const handleUpload = () => {
+    const handleUpload = () => {
+        // check current vs the best time 
+        // RED
+        let tempArrayRed = []
+        let tempArrayBlue = []
 
-    // }
+
+        if ([redArrows].length > 0) {
+            Object.values(redArrows).forEach((potData) => {
+                if (potData.length > 0) {
+                    potData.forEach((eachData) => {
+                        tempArrayRed.push({
+                            ...eachData,
+                            ...bestTimeRed[eachData.arrow - 1],
+                        })
+                    })
+                }
+            })
+            tempArrayRed.sort((a, b) => {
+                return a.arrow - b.arrow
+            })
+
+            if (bestTimeRed.length < tempArrayRed.length) {
+                tempArrayRed.map((each) => {
+                    redUpload(each.arrow, parseFloat(each.time))
+                })
+            } else {
+                tempArrayRed.map((each) => {
+                    if (parseFloat(each.time) > each.Besttime) {
+                        // overrideBestTime.push(each)
+                        redUpload(each.arrow, parseFloat(each.time))
+                    }
+                })
+            }
+        }
+
+        // BLUE
+
+        if ([blueArrows].length > 0) {
+            Object.values(blueArrows).forEach((potData) => {
+                if (potData.length > 0) {
+                    potData.forEach((eachData) => {
+                        tempArrayBlue.push({
+                            ...eachData,
+                            ...bestTimeBlue[eachData.arrow - 1],
+                        })
+                    })
+                }
+            })
+            tempArrayBlue.sort((a, b) => {
+                return a.arrow - b.arrow
+            })
+
+
+            if (bestTimeBlue.length < tempArrayBlue.length) {
+                tempArrayBlue.map((each) => {
+                    blueUpload(each.arrow, parseFloat(each.time))
+                })
+            } else {
+                tempArrayBlue.map((each) => {
+                    if (parseFloat(each.time) > each.Besttime) {
+                        // overrideBestTime.push(each)
+                        blueUpload(each.arrow, parseFloat(each.time))
+                    }
+                })
+            }
+        }
+    }
 
 
     return (
@@ -245,6 +344,7 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
             <div>
                 <Grid container className={classes.saudara} style={{ justifyContent: "center" }}>
                     <h1>{MsToTime(timeElapsed.time * 1000)}</h1>
+                    {timeElapsed.time > 60 ? <h5 style={{ marginTop: '4.5vh', marginLeft: "2vw" }}>Game time</h5> : <h5 style={{ marginTop: '4.5vh', marginLeft: "2vw" }}>preparation time</h5>}
                     <DrawerRight />
                 </Grid>
                 <Switch
@@ -278,11 +378,10 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
                     }}
                     onKeyDown={(event) => {
                         handleTextFieldKeyDown(event, insideText)
-                        setinsideText('')
                     }}
                 />
                 {endGame && <Button variant="contained" color="secondary" style={{ marginLeft: "1vw" }}
-                // onClick={handleUpload}
+                    onClick={handleUpload}
                 >
                     Upload
                 </Button>}
@@ -346,11 +445,12 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
                                 <TableUI RlapPot={RTop} />
                             </Grid>
                             <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
-                                <TableUI RlapPot={RBottom} />
-                            </Grid>
-                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
                                 <TableUI RlapPot={RCenter} />
                             </Grid>
+                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
+                                <TableUI RlapPot={RBottom} />
+                            </Grid>
+
                         </Grid>
                         <Grid style={{ maxWidth: "70vw", marginLeft: "1vw" }}>
                             <hr />
@@ -382,10 +482,10 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
                                 <TableUI RlapPot={BTop} />
                             </Grid>
                             <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
-                                <TableUI RlapPot={BBottom} />
+                                <TableUI RlapPot={BCenter} />
                             </Grid>
                             <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
-                                <TableUI RlapPot={BCenter} />
+                                <TableUI RlapPot={BBottom} />
                             </Grid>
                         </Grid>
                     </Grid>
