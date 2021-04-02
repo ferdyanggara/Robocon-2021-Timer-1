@@ -11,6 +11,9 @@ import TableRow from '@material-ui/core/TableRow'
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/Delete'
 
+import {connect} from 'react-redux';
+import {DeletingArrowAction} from '../redux/actions/arrowActions'
+
 const MsToTime = (s) => {
     var ms = s % 1000
     s = (s - ms) / 1000
@@ -37,7 +40,7 @@ const useStyles = makeStyles({
     },
 })
 
-const TableUI = ({ RlapPot, pot }) => {
+const TableUI = ({ RlapPot, pot, deleteArrow }) => {
     const classes = useStyles()
 
     // console.log('rlappot: ', RlapPot)
@@ -79,6 +82,7 @@ const TableUI = ({ RlapPot, pot }) => {
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage,
                         ).map((row) => {
+                            console.log(row);
                             return (
                                 <TableRow
                                     hover
@@ -88,10 +92,13 @@ const TableUI = ({ RlapPot, pot }) => {
                                 >
                                     <TableCell>{row.arrow}</TableCell>
                                     <TableCell>
-                                        {MsToTime(row.time * 1000)}
+                                        {MsToTime(row.time)}
                                     </TableCell>
                                     <TableCell>
-                                        <Button>
+                                        <Button onClick={() => {
+                                            console.log("deleting", row);
+                                            deleteArrow(row.globalID, row.barrel)
+                                        }}>
                                             <DeleteIcon />
                                         </Button>
                                     </TableCell>
@@ -114,4 +121,14 @@ const TableUI = ({ RlapPot, pot }) => {
     )
 }
 
-export default TableUI
+const mapStateToProps = (state) => {
+    return({})
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return ({
+        deleteArrow: (idNo, barrelType) => {dispatch(DeletingArrowAction(idNo, barrelType))}
+    })
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TableUI)

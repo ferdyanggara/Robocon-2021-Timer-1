@@ -13,12 +13,13 @@ const AddingArrowAction = (barrelNo, arrow, currentTime, arrowType) => {
     })
 }
 
-const DeletingArrowAction = (idNo) => {
+const DeletingArrowAction = (idNo, barrelType) => {
     //i feel like I could just remove the end on it
     return({
         type: DELETE_ARROW,
         payload : {
-            barrel : idNo,
+            global : idNo,
+            barrel : barrelType
         }
     })
 }

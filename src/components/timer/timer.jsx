@@ -16,10 +16,6 @@ import { setAlert } from '../../redux/actions/alertAction'
 import TextField from '@material-ui/core/TextField';
 import DrawerRight from '../DrawerRight'
 
-import axios from "axios";
-
-import { SERVER_URL } from '../../constants/usefulConstants'
-
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, triggerAlert }) => {
+const Timer = ({ arrowNumber,redArrows, blueArrows, addArrow, deleteArrow, triggerAlert }) => {
 
     const MsToTime = (s) => {
         var ms = s % 1000
@@ -73,17 +69,15 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
     const [BCenter, setBCenter] = useState([])
     const [arrowCounter, setarrowCounter] = useState({ arrow: 1 })
 
-    const [timeElapsed, settimeElapsed] = useState({ time: 180 })
+    const [timeElapsed, settimeElapsed] = useState({ time: 180000 })
     const [toggleTimer, settoggleTimer] = useState(false)
 
     useEffect(() => {
         if (RLeft.length > 1 && RRight.length > 1 && RBottom.length > 1 && RTop.length > 1 && RCenter.length > 1) {
             alert('Red Team Victory')
-            setEndGame(true)
         }
         if (BLeft.length > 1 && BRight.length > 1 && BBottom.length > 1 && BTop.length > 1 && BCenter.length > 1) {
             alert('Blue Team Victory')
-            setEndGame(true)
         }
     }, [RLeft, RRight, RBottom, RTop, RCenter, BLeft, BRight, BBottom, BTop, BCenter])
 
@@ -93,10 +87,8 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
             settimeElapsed({ time: 0 })
             if ((RLeft.length + RRight.length + RTop.length + RBottom.length + RCenter.length) > (BLeft.length + BRight.length + BTop.length + BBottom.length + BCenter.length)) {
                 alert('Red Team Wins')
-                setEndGame(true)
             } else {
                 alert('Blue Team Wins')
-                setEndGame(true)
             }
         }
     }, [timeElapsed.time, RLeft, RRight, RBottom, RTop, RCenter, BLeft, BRight, BBottom, BTop, BCenter])
@@ -112,37 +104,43 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
         setBTop(blueArrows.BTop);
         setBBottom(blueArrows.BBottom);
         setBCenter(blueArrows.BCenter);
+        // console.log('arrows data: ', arrowsData);
     }, [redArrows, blueArrows])
 
-
+    let timePlaceholder = Date.now();
 
     const makeTime = () => {
         setstartOnce(true)
+        timePlaceholder = Date.now();
         setintervalFunc(
             setInterval(() => {
+                const temp = Date.now();
                 settimeElapsed((timeElapsed) => {
                     return {
-                        time: (timeElapsed.time - 0.016).toFixed(3)
+                        time: timeElapsed.time - (temp - timePlaceholder)
                     }
                 })
-            }, 1),
+                timePlaceholder = temp;
+            }, 10),
         )
     }
 
     const StopAction = () => {
         clearInterval(intervalFunc)
+        console.log('stop')
     }
 
     const Restart = () => {
         clearInterval(intervalFunc)
         setstartOnce(false)
+        console.log("what is the time: ", timeElapsed)
         toggleTimer == false ? settimeElapsed((timeElapsed) => {
             return {
-                time: 180
+                time: 180000
             }
         }) : settimeElapsed((timeElapsed) => {
             return {
-                time: 60
+                time: 60000
             }
         })
     }
@@ -153,11 +151,11 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
         settoggleTimer(!toggleTimer)
         timeElapsed.time == 180 ? settimeElapsed((timeElapsed) => {
             return {
-                time: 60
+                time: 60000
             }
         }) : settimeElapsed((timeElapsed) => {
             return {
-                time: 180
+                time: 180000
             }
         })
     }
@@ -179,6 +177,7 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
     // text field config 
 
     // const onChangeInput = (text) => {
+    //     console.log('text received: ', text)
     // }
 
 
@@ -193,7 +192,7 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
                     addArrow("RRight", arrowNumber, timeElapsed.time, "RED")
                     triggerAlert("Add Arrow", "success")
                 } else if (insideText.toLowerCase() == "r3" || insideText.toLowerCase() == "RTop") {
-                    addArrow("RTop", arrowNumber, timeElapsed.time, "RED")
+                    addArrow("RTop", arrowNumber, timeElapsed.time,"RED")
                     triggerAlert("Add Arrow", "success")
                 } else if (insideText.toLowerCase() == "r4" || insideText.toLowerCase() == "RCenter") {
                     addArrow("RCenter", arrowNumber, timeElapsed.time, "RED")
@@ -224,128 +223,15 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
 
     const [insideText, setinsideText] = useState("")
 
-    // end game
-    const [endGame, setEndGame] = useState(false)
-
     const classes = useStyles();
-
-
-    const [bestTimeRed, setbestTimeRed] = useState([])
-    const [bestTimeBlue, setbestTimeBlue] = useState([])
-
-    const loadBestTimeRed = async () => {
-        const { data } = await axios.get(`${SERVER_URL}/all-timer-red`)
-        setbestTimeRed(data)
-    }
-
-    const loadBestTimeBlue = async () => {
-        const { data } = await axios.get(`${SERVER_URL}/all-timer-blue`)
-        setbestTimeBlue(data)
-    }
-
-    useEffect(() => {
-        loadBestTimeRed()
-        loadBestTimeBlue()
-    }, [])
-
-    const redUpload = async (arrow, besttime) => {
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
-
-        const { data } = await axios.post(`${SERVER_URL}/add-timer-red`, { arrow: arrow, bestTime: besttime }, config);
-    }
-
-    const blueUpload = async (arrow, besttime) => {
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
-
-        const { data } = await axios.post(`${SERVER_URL}/add-timer-blue`, { arrow: arrow, bestTime: besttime }, config);
-    }
-
-    // handle upload state 
-    const handleUpload = () => {
-        // check current vs the best time 
-        // RED
-        let tempArrayRed = []
-        let tempArrayBlue = []
-
-
-        if ([redArrows].length > 0) {
-            Object.values(redArrows).forEach((potData) => {
-                if (potData.length > 0) {
-                    potData.forEach((eachData) => {
-                        tempArrayRed.push({
-                            ...eachData,
-                            ...bestTimeRed[eachData.arrow - 1],
-                        })
-                    })
-                }
-            })
-            tempArrayRed.sort((a, b) => {
-                return a.arrow - b.arrow
-            })
-
-            if (bestTimeRed.length < tempArrayRed.length) {
-                tempArrayRed.map((each) => {
-                    redUpload(each.arrow, parseFloat(each.time))
-                })
-            } else {
-                tempArrayRed.map((each) => {
-                    if (parseFloat(each.time) > each.Besttime) {
-                        // overrideBestTime.push(each)
-                        redUpload(each.arrow, parseFloat(each.time))
-                    }
-                })
-            }
-        }
-
-        // BLUE
-
-        if ([blueArrows].length > 0) {
-            Object.values(blueArrows).forEach((potData) => {
-                if (potData.length > 0) {
-                    potData.forEach((eachData) => {
-                        tempArrayBlue.push({
-                            ...eachData,
-                            ...bestTimeBlue[eachData.arrow - 1],
-                        })
-                    })
-                }
-            })
-            tempArrayBlue.sort((a, b) => {
-                return a.arrow - b.arrow
-            })
-
-
-            if (bestTimeBlue.length < tempArrayBlue.length) {
-                tempArrayBlue.map((each) => {
-                    blueUpload(each.arrow, parseFloat(each.time))
-                })
-            } else {
-                tempArrayBlue.map((each) => {
-                    if (parseFloat(each.time) > each.Besttime) {
-                        // overrideBestTime.push(each)
-                        blueUpload(each.arrow, parseFloat(each.time))
-                    }
-                })
-            }
-        }
-    }
 
 
     return (
         <>
             <div>
                 <Grid container className={classes.saudara} style={{ justifyContent: "center" }}>
-                    <h1>{MsToTime(timeElapsed.time * 1000)}</h1>
-                    {timeElapsed.time > 60 ? <h5 style={{ marginTop: '4.5vh', marginLeft: "2vw" }}>Game time</h5> : <h5 style={{ marginTop: '4.5vh', marginLeft: "2vw" }}>preparation time</h5>}
-                    <DrawerRight />
+                    <h1>{MsToTime(timeElapsed.time)}</h1>
+                    {/* <DrawerRight /> */}
                 </Grid>
                 <Switch
                     checked={toggleTimer}
@@ -378,13 +264,9 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
                     }}
                     onKeyDown={(event) => {
                         handleTextFieldKeyDown(event, insideText)
+                        setinsideText('')
                     }}
                 />
-                {endGame && <Button variant="contained" color="secondary" style={{ marginLeft: "1vw" }}
-                    onClick={handleUpload}
-                >
-                    Upload
-                </Button>}
                 {/* <Button variant="contained" onClick={lapAction}>
                     Lap
                 </Button> */}
@@ -409,9 +291,7 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
                     del bar 2
                 </Button> */}
             </div>
-
-
-
+            
             <div className={classes.root}>
                 <Grid container className={classes.saudara}>
                     <Grid container style={{ maxWidth: "40vw", marginTop: "5vh" }}>
@@ -445,12 +325,11 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
                                 <TableUI RlapPot={RTop} />
                             </Grid>
                             <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
-                                <TableUI RlapPot={RCenter} />
-                            </Grid>
-                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
                                 <TableUI RlapPot={RBottom} />
                             </Grid>
-
+                            <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
+                                <TableUI RlapPot={RCenter} />
+                            </Grid>
                         </Grid>
                         <Grid style={{ maxWidth: "70vw", marginLeft: "1vw" }}>
                             <hr />
@@ -482,10 +361,10 @@ const Timer = ({ arrowNumber, redArrows, blueArrows, addArrow, deleteArrow, trig
                                 <TableUI RlapPot={BTop} />
                             </Grid>
                             <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
-                                <TableUI RlapPot={BCenter} />
+                                <TableUI RlapPot={BBottom} />
                             </Grid>
                             <Grid style={{ maxWidth: "200px", marginTop: "2vh", marginLeft: "1vw" }}>
-                                <TableUI RlapPot={BBottom} />
+                                <TableUI RlapPot={BCenter} />
                             </Grid>
                         </Grid>
                     </Grid>
