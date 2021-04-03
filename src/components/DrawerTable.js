@@ -1,3 +1,4 @@
+
 import React, { useEffect, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
@@ -89,8 +90,8 @@ const TableUI = ({ RlapPot, pot }) => {
                         // key={row.code}
                     >
                         <TableCell>{row.arrow}</TableCell>
-                        <TableCell>{MsToTime(row.time * 1000)}</TableCell>
-                        <TableCell>{MsToTime(row.Besttime * 1000)}</TableCell>
+                        <TableCell>{MsToTime(row.time)}</TableCell>
+                        <TableCell>{MsToTime(row.Besttime)}</TableCell>
                     </TableRow>
                 )
             })}
