@@ -231,7 +231,7 @@ const Timer = ({ arrowNumber,redArrows, blueArrows, addArrow, deleteArrow, trigg
             <div>
                 <Grid container className={classes.saudara} style={{ justifyContent: "center" }}>
                     <h1>{MsToTime(timeElapsed.time)}</h1>
-                    {/* <DrawerRight /> */}
+                    <DrawerRight />
                 </Grid>
                 <Switch
                     checked={toggleTimer}
@@ -387,7 +387,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return ({
         addArrow: (barrel, arrow, time, type) => { dispatch(AddingArrowAction(barrel, arrow, time, type)) },
-        deleteArrow: (id) => { dispatch(DeletingArrowAction(id)) },
+        // deleteArrow: (id) => { dispatch(DeletingArrowAction(id)) },
         triggerAlert: (msg = 'Arrow Added', alertType = 'success') => {
             dispatch(setAlert(msg, alertType))
         },
