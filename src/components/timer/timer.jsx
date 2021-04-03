@@ -17,9 +17,7 @@ import TextField from '@material-ui/core/TextField';
 import DrawerRight from '../DrawerRight'
 
 import axios from "axios";
-
 import { SERVER_URL } from '../../constants/usefulConstants'
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -229,12 +227,8 @@ const Timer = ({ arrowNumber,redArrows, blueArrows, addArrow, deleteArrow, trigg
     }
 
     const [insideText, setinsideText] = useState("")
-
-    // end game
     const [endGame, setEndGame] = useState(false)
-
     const classes = useStyles();
-
 
     const [bestTimeRed, setbestTimeRed] = useState([])
     const [bestTimeBlue, setbestTimeBlue] = useState([])
@@ -349,7 +343,7 @@ const Timer = ({ arrowNumber,redArrows, blueArrows, addArrow, deleteArrow, trigg
         <>
             <div>
                 <Grid container className={classes.saudara} style={{ justifyContent: "center" }}>
-                    <h1>{MsToTime(timeElapsed.time * 1000)}</h1>
+                <h1>{MsToTime(timeElapsed.time * 1000)}</h1>
                     {timeElapsed.time > 60 ? <h5 style={{ marginTop: '4.5vh', marginLeft: "2vw" }}>Game time</h5> : <h5 style={{ marginTop: '4.5vh', marginLeft: "2vw" }}>preparation time</h5>}
                     <DrawerRight />
                 </Grid>
@@ -386,12 +380,12 @@ const Timer = ({ arrowNumber,redArrows, blueArrows, addArrow, deleteArrow, trigg
                         handleTextFieldKeyDown(event, insideText)
                         setinsideText('')
                     }}
-                />
+                /> 
                 {endGame && <Button variant="contained" color="secondary" style={{ marginLeft: "1vw" }}
-                    onClick={handleUpload}
-                >
-                    Upload
-                </Button>}
+                onClick={handleUpload}
+            >
+                Upload
+            </Button>}
                 {/* <Button variant="contained" onClick={lapAction}>
                     Lap
                 </Button> */}
@@ -513,7 +507,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return ({
         addArrow: (barrel, arrow, time, type) => { dispatch(AddingArrowAction(barrel, arrow, time, type)) },
-        deleteArrow: (id) => { dispatch(DeletingArrowAction(id)) },
+        // deleteArrow: (id) => { dispatch(DeletingArrowAction(id)) },
         triggerAlert: (msg = 'Arrow Added', alertType = 'success') => {
             dispatch(setAlert(msg, alertType))
         },
