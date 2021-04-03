@@ -343,7 +343,7 @@ const Timer = ({ arrowNumber,redArrows, blueArrows, addArrow, deleteArrow, trigg
         <>
             <div>
                 <Grid container className={classes.saudara} style={{ justifyContent: "center" }}>
-                <h1>{MsToTime(timeElapsed.time * 1000)}</h1>
+                <h1>{MsToTime(timeElapsed.time)}</h1>
                     {timeElapsed.time > 60 ? <h5 style={{ marginTop: '4.5vh', marginLeft: "2vw" }}>Game time</h5> : <h5 style={{ marginTop: '4.5vh', marginLeft: "2vw" }}>preparation time</h5>}
                     <DrawerRight />
                 </Grid>
