@@ -8,9 +8,11 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
+import Button from '@material-ui/core/Button'
+import DeleteIcon from '@material-ui/icons/Delete'
 
-import {connect} from 'react-redux';
-import {DeletingArrowAction} from '../redux/actions/arrowActions'
+import { connect } from 'react-redux'
+import { DeletingArrowAction } from '../redux/actions/arrowActions'
 
 const MsToTime = (s) => {
     var ms = s % 1000
@@ -24,8 +26,9 @@ const MsToTime = (s) => {
 }
 
 const columns = [
-    { id: 'name', label: 'Arrow No', maxWidth: 50, align: 'left' },
+    { id: 'name', label: 'Arrow', maxWidth: 50, align: 'left' },
     { id: 'code', label: 'Time', maxWidth: 100, align: 'left' },
+    { id: 'delete', label: 'X', maxWidth: 50, align: 'left' },
 ]
 
 const useStyles = makeStyles({
@@ -33,6 +36,7 @@ const useStyles = makeStyles({
         width: '20%',
     },
     container: {
+        minHeight: 200,
         maxHeight: 200,
     },
 })
@@ -54,7 +58,7 @@ const TableUI = ({ RlapPot, pot, deleteArrow }) => {
         setPage(0)
     }
 
-    console.log('rlap pot: ', RlapPot)
+    // console.log('rlap pot: ', RlapPot)
 
     return (
         // <Paper className={classes.root}>
@@ -79,7 +83,7 @@ const TableUI = ({ RlapPot, pot, deleteArrow }) => {
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage,
                         ).map((row) => {
-                            console.log(row);
+                            // console.log(row)
                             return (
                                 <TableRow
                                     hover
@@ -88,20 +92,20 @@ const TableUI = ({ RlapPot, pot, deleteArrow }) => {
                                     // key={row.code}
                                 >
                                     <TableCell>{row.arrow}</TableCell>
+                                    <TableCell>{MsToTime(row.time)}</TableCell>
                                     <TableCell>
-                                        {MsToTime(row.time)}
-                                    </TableCell>
-<<<<<<< HEAD
-                                    <TableCell>
-                                        <Button onClick={() => {
-                                            console.log("deleting", row);
-                                            deleteArrow(row.globalID, row.barrel)
-                                        }}>
+                                        <Button
+                                            onClick={() => {
+                                                // console.log('deleting', row)
+                                                deleteArrow(
+                                                    row.globalID,
+                                                    row.barrel,
+                                                )
+                                            }}
+                                        >
                                             <DeleteIcon />
                                         </Button>
                                     </TableCell>
-=======
->>>>>>> parent of 806c4ca... add delete icon
                                 </TableRow>
                             )
                         })}
@@ -122,13 +126,15 @@ const TableUI = ({ RlapPot, pot, deleteArrow }) => {
 }
 
 const mapStateToProps = (state) => {
-    return({})
+    return {}
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return ({
-        deleteArrow: (idNo, barrelType) => {dispatch(DeletingArrowAction(idNo, barrelType))}
-    })
+    return {
+        deleteArrow: (idNo, barrelType) => {
+            dispatch(DeletingArrowAction(idNo, barrelType))
+        },
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableUI)

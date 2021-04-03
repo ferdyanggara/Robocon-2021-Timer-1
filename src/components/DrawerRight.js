@@ -35,7 +35,7 @@ import axios from 'axios'
 import { SERVER_URL } from '../constants/usefulConstants'
 
 const columns = [
-    { id: 'name', label: 'Arrow No', maxWidth: 50, align: 'left' },
+    { id: 'name', label: 'Arrow', maxWidth: 50, align: 'left' },
     { id: 'code', label: 'Time', maxWidth: 100, align: 'left' },
     { id: 'bestTime', label: 'Best Time', maxWidth: 100, align: 'left' },
 ]
@@ -51,6 +51,10 @@ const useStyles = makeStyles({
         marginRight: '2px',
         flexDirection: 'row',
         flexWrap: 'nowrap',
+    },
+    container: {
+        minHeight: '40vh',
+        maxHeight: 200,
     },
 })
 
@@ -82,15 +86,15 @@ const DrawerRight = ({ redArrows, blueArrows }) => {
     //             newArray.push()
     //         }
     //     })
-    //     // console.log(
+    // console.log(
     //     //     'arrow Data',
     //     //     Object.values(arrowsData).map((each) => {
     //     //         each.map((moreEach) => {
-    //     //             console.log(moreEach.time)
+    // console.log(moreEach.time)
     //     //         })
     //     //     }),
     //     // )
-    //     // console.log('things: ', things)
+    // console.log('things: ', things)
     // }, [arrowsData])
 
     const [renderRedPots, setRenderRedPots] = useState([])
@@ -100,16 +104,16 @@ const DrawerRight = ({ redArrows, blueArrows }) => {
     const [bestTimeBlue, setbestTimeBlue] = useState([])
 
     const loadBestTimeRed = async () => {
-        console.log('what is server url', SERVER_URL)
-        const { data } = await axios.get(`${SERVER_URL}/all-timer-red`)
-        console.log('what is red best time: ', data)
+        // console.log('what is server url', SERVER_URL)
+        const { data } = await axios.get(`${SERVER_URL}/timer/all-timer-red`)
+        // console.log('what is red best time: ', data)
         setbestTimeRed(data)
     }
 
     const loadBestTimeBlue = async () => {
-        console.log('what is server url', SERVER_URL)
-        const { data } = await axios.get(`${SERVER_URL}/all-timer-blue`)
-        console.log('what is blue best time: ', data)
+        // console.log('what is server url', SERVER_URL)
+        const { data } = await axios.get(`${SERVER_URL}/timer/all-timer-blue`)
+        // console.log('what is blue best time: ', data)
         setbestTimeBlue(data)
     }
 
@@ -151,7 +155,7 @@ const DrawerRight = ({ redArrows, blueArrows }) => {
         // setRenderPots(Object.values(arrowsData))
         // console.log('render pots: ', renderPots)
 
-        console.log('red arrows: ', redArrows)
+        // console.log('red arrows: ', redArrows)
         Object.values(redArrows).forEach((potData) => {
             if (potData.length > 0) {
                 potData.forEach((eachData) => {
@@ -278,7 +282,7 @@ const DrawerRight = ({ redArrows, blueArrows }) => {
                     <Button
                         style={{
                             marginTop: '2.5vh',
-                            marginLeft: '42vw',
+                            marginLeft: '52vw',
                             position: 'absolute',
                         }}
                         onClick={toggleDrawer(anchor, true)}

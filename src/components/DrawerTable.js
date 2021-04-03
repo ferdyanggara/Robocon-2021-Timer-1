@@ -1,4 +1,3 @@
-
 import React, { useEffect, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
@@ -31,6 +30,7 @@ const useStyles = makeStyles({
         width: '20%',
     },
     container: {
+        minHeight: 200,
         maxHeight: 200,
     },
 })

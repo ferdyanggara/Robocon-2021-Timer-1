@@ -1,1 +1,1 @@
-export const SERVER_URL = 'http://localhost:8080/timer'
+export const SERVER_URL = 'http://localhost:8080'

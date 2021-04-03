@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 const GameMap = ({
     addingArrow,
     arrowNumber,
+    trialID,
     timeElapsed,
     triggerAlert,
     redArrow,
@@ -15,6 +16,7 @@ const GameMap = ({
     return (
         <div>
             <img
+                // style={{ maxWidth: '400px' }}
                 className="GameFieldImage"
                 src={GameFieldImage}
                 alt="error"
@@ -28,7 +30,13 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('RLeft', arrowNumber, timeElapsed, 'RED')
+                        addingArrow(
+                            trialID,
+                            'RLeft',
+                            arrowNumber,
+                            timeElapsed,
+                            'RED',
+                        )
                         triggerAlert('Arrow Added at Pot Red Left', 'success')
                     }}
                     hover="true"
@@ -40,7 +48,13 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('RRight', arrowNumber, timeElapsed, 'RED')
+                        addingArrow(
+                            trialID,
+                            'RRight',
+                            arrowNumber,
+                            timeElapsed,
+                            'RED',
+                        )
 
                         triggerAlert('Arrow Added at Pot Red Right', 'success')
                     }}
@@ -53,8 +67,14 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        console.log('blue top')
-                        addingArrow('BTop', arrowNumber, timeElapsed, 'BLUE')
+                        // console.log('blue top')
+                        addingArrow(
+                            trialID,
+                            'BTop',
+                            arrowNumber,
+                            timeElapsed,
+                            'BLUE',
+                        )
 
                         triggerAlert('Arrow Added at Pot Blue Top', 'success')
                     }}
@@ -66,7 +86,13 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('BBottom', arrowNumber, timeElapsed, 'BLUE')
+                        addingArrow(
+                            trialID,
+                            'BBottom',
+                            arrowNumber,
+                            timeElapsed,
+                            'BLUE',
+                        )
                         triggerAlert(
                             'Arrow Added at Pot Blue Bottom',
                             'success',
@@ -80,7 +106,13 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('BCenter', arrowNumber, timeElapsed, 'BLUE')
+                        addingArrow(
+                            trialID,
+                            'BCenter',
+                            arrowNumber,
+                            timeElapsed,
+                            'BLUE',
+                        )
                         triggerAlert(
                             'Arrow Added at Pot Blue Center',
                             'success',
@@ -94,7 +126,13 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('BLeft', arrowNumber, timeElapsed, 'BLUE')
+                        addingArrow(
+                            trialID,
+                            'BLeft',
+                            arrowNumber,
+                            timeElapsed,
+                            'BLUE',
+                        )
 
                         triggerAlert('Arrow Added at Pot Blue Left', 'success')
                     }}
@@ -107,7 +145,13 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('BRight', arrowNumber, timeElapsed, 'BLUE')
+                        addingArrow(
+                            trialID,
+                            'BRight',
+                            arrowNumber,
+                            timeElapsed,
+                            'BLUE',
+                        )
 
                         triggerAlert('Arrow Added at Pot Blue Right', 'success')
                     }}
@@ -119,7 +163,13 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('RTop', arrowNumber, timeElapsed, 'RED')
+                        addingArrow(
+                            trialID,
+                            'RTop',
+                            arrowNumber,
+                            timeElapsed,
+                            'RED',
+                        )
 
                         triggerAlert('Arrow Added at Pot Red Top', 'success')
                     }}
@@ -131,7 +181,13 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('RBottom', arrowNumber, timeElapsed, 'RED')
+                        addingArrow(
+                            trialID,
+                            'RBottom',
+                            arrowNumber,
+                            timeElapsed,
+                            'RED',
+                        )
                         triggerAlert('Arrow Added at Pot Red Bottom', 'success')
                     }}
                     hover="true"
@@ -142,7 +198,13 @@ const GameMap = ({
                     alt="buttonerror"
                     href="#"
                     onClick={() => {
-                        addingArrow('RCenter', arrowNumber, timeElapsed, 'RED')
+                        addingArrow(
+                            trialID,
+                            'RCenter',
+                            arrowNumber,
+                            timeElapsed,
+                            'RED',
+                        )
                         triggerAlert('Arrow Added at Pot Red Center', 'success')
                     }}
                     hover="true"
