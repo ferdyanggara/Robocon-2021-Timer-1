@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Line } from '@ant-design/charts'
-const Page = ({ avg }) => {
+import axios from 'axios'
+import { SERVER_URL } from '../../constants/usefulConstants'
+const Page = ({ avg, id }) => {
     // console.log('avg: ', typeof avg)
     // console.log('avg content: ')
 
@@ -16,6 +18,7 @@ const Page = ({ avg }) => {
     }
 
     const data = [avg][0]
+
     const toShow = data.map((each) => {
         return {
             ...each,
@@ -23,6 +26,36 @@ const Page = ({ avg }) => {
         }
     })
 
+    const [trialId, settrialId] = useState(0)
+
+    const getTrialId = async () => {
+        const { data } = await axios.get(`${SERVER_URL}/trialRouter/getTrialId`)
+        console.log('data: ', data[0].trialId)
+        settrialId(data[0].trialId)
+    }
+
+    useEffect(() => {
+        getTrialId()
+    }, [])
+
+    const currentTrialDataRed = async () => {
+        const { data } = await axios.get(
+            `${SERVER_URL}/regularTimer/all-regTimer-red/${trialId}`,
+        )
+        console.log('red data: ', data)
+    }
+    const currentTrialDataBlue = async () => {
+        const { data } = await axios.get(
+            `${SERVER_URL}/regularTimer/all-regTimer-blue/${trialId}`,
+        )
+        console.log('blue data: ', data)
+    }
+
+    useEffect(() => {
+        trialId != undefined && currentTrialDataRed() && currentTrialDataBlue()
+    }, [])
+
+    // toShow.append({ arrowId: 20, averageTime: 100, type: 'russian' })
     console.log('to show: ', toShow)
 
     const config = {
@@ -31,6 +64,7 @@ const Page = ({ avg }) => {
         // toShow,
         xField: 'arrowId',
         yField: 'averageTime',
+        seriesField: 'type',
         // theme: 'dark',
         point: {
             size: 5,
@@ -40,18 +74,23 @@ const Page = ({ avg }) => {
         height: 500,
         legend: {
             visible: true,
-            position: 'top',
+            position: 'bottom',
         },
-        seriesField: 'type',
         padding: 'auto',
+        smooth: true,
         forceFit: true,
         responsive: true,
         yAxis: {
             label: {
-                // 数值格式化为千分位
                 formatter: (time) => `${MsToTime(time)}`,
             },
         },
+        // animation: {
+        //     appear: {
+        //         animation: 'path-in',
+        //         duration: 1000,
+        //     },
+        // },
         // tooltip: {
         //     customContent: (title = 'Arrow: ', items) => {
         //         return (
@@ -142,12 +181,7 @@ export default Page
 //         },
 //         legend: { position: 'top' },
 //         smooth: true,
-//         animation: {
-//             appear: {
-//                 animation: 'path-in',
-//                 duration: 1000,
-//             },
-//         },
+//
 //     }
 //     return <Line {...config} />
 // }

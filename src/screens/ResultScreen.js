@@ -43,6 +43,7 @@ const ResultScreen = () => {
 
         // console.log('avg data:', data)
     }
+
     useEffect(() => {
         getAverageDataRed()
         getAverageDataBlue()
@@ -90,11 +91,11 @@ const ResultScreen = () => {
                 }}
             >
                 <Grid container className={classes.saudara}>
-                    {/* <SimpleLineChart avg={avgDataRed} /> */}
-                    <CarbonLineChart />
+                    <SimpleLineChart avg={avgDataRed} />
+                    {/* <CarbonLineChart /> */}
                     <hr />
-                    <CarbonLineChart />
-                    {/* <SimpleLineChart avg={avgDataBlue} /> */}
+                    {/* <CarbonLineChart /> */}
+                    <SimpleLineChart avg={avgDataBlue} />
                 </Grid>
             </Grid>
         </>
