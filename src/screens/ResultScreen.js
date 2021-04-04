@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import SimpleLineChart from '../components/charts/SimpleLineChart'
+import CarbonLineChart from '../components/charts/CarbonLineChart'
 import axios from 'axios'
 import { SERVER_URL } from '../constants/usefulConstants'
 import { makeStyles } from '@material-ui/core/styles'
@@ -89,9 +90,11 @@ const ResultScreen = () => {
                 }}
             >
                 <Grid container className={classes.saudara}>
-                    <SimpleLineChart avg={avgDataRed} />
+                    {/* <SimpleLineChart avg={avgDataRed} /> */}
+                    <CarbonLineChart />
                     <hr />
-                    <SimpleLineChart avg={avgDataBlue} />
+                    <CarbonLineChart />
+                    {/* <SimpleLineChart avg={avgDataBlue} /> */}
                 </Grid>
             </Grid>
         </>
